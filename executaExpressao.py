@@ -1,6 +1,8 @@
 '''
-Aluna : Beatriz Perotto Muniz @beatrizperottomuniz
-Grupo : RA1 6
+Integrantes do grupo:
+Beatriz Perotto Muniz - @beatrizperottomuniz
+
+Nome do grupo no Canvas: RA2 6
 '''
 from Token import TokenType
 from geradorAssembly import resgatarLexema
