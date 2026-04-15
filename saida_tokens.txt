@@ -1,0 +1,728 @@
+{
+    "string_pool": [
+        "9.0",
+        "3.0",
+        "2.0",
+        "5",
+        "4.0",
+        "1.0",
+        "6.0",
+        "15.0",
+        "1",
+        "2",
+        "8",
+        "200.0",
+        "X",
+        "10"
+    ],
+    "tokens": [
+        {
+            "tipo": "LPAREN",
+            "linha": 1,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 1,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 1,
+            "coluna": 6,
+            "simbolo_id": 1
+        },
+        {
+            "tipo": "DIV",
+            "linha": 1,
+            "coluna": 10,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 1,
+            "coluna": 11,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 2,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 2,
+            "coluna": 2,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 2,
+            "coluna": 6,
+            "simbolo_id": 3
+        },
+        {
+            "tipo": "POW",
+            "linha": 2,
+            "coluna": 8,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 2,
+            "coluna": 9,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 3,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 3,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 3,
+            "coluna": 3,
+            "simbolo_id": 4
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 3,
+            "coluna": 7,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "MULT",
+            "linha": 3,
+            "coluna": 11,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 3,
+            "coluna": 12,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 3,
+            "coluna": 14,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 3,
+            "coluna": 15,
+            "simbolo_id": 1
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 3,
+            "coluna": 19,
+            "simbolo_id": 5
+        },
+        {
+            "tipo": "PLUS",
+            "linha": 3,
+            "coluna": 23,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 3,
+            "coluna": 24,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "PLUS",
+            "linha": 3,
+            "coluna": 26,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 3,
+            "coluna": 27,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 4,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 4,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 4,
+            "coluna": 3,
+            "simbolo_id": 6
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 4,
+            "coluna": 7,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "DIV",
+            "linha": 4,
+            "coluna": 11,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 4,
+            "coluna": 12,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 4,
+            "coluna": 14,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 4,
+            "coluna": 15,
+            "simbolo_id": 3
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 4,
+            "coluna": 17,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "MULT",
+            "linha": 4,
+            "coluna": 21,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 4,
+            "coluna": 22,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "MULT",
+            "linha": 4,
+            "coluna": 24,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 4,
+            "coluna": 25,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 5,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 5,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 5,
+            "coluna": 3,
+            "simbolo_id": 7
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 5,
+            "coluna": 8,
+            "simbolo_id": 4
+        },
+        {
+            "tipo": "MOD",
+            "linha": 5,
+            "coluna": 12,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 5,
+            "coluna": 13,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 5,
+            "coluna": 15,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 5,
+            "coluna": 16,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 5,
+            "coluna": 20,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "PLUS",
+            "linha": 5,
+            "coluna": 24,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 5,
+            "coluna": 25,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "MULT",
+            "linha": 5,
+            "coluna": 27,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 5,
+            "coluna": 28,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 6,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 6,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 6,
+            "coluna": 3,
+            "simbolo_id": 8
+        },
+        {
+            "tipo": "KEYWORD_RES",
+            "linha": 6,
+            "coluna": 5,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 6,
+            "coluna": 8,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 6,
+            "coluna": 10,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 6,
+            "coluna": 11,
+            "simbolo_id": 9
+        },
+        {
+            "tipo": "KEYWORD_RES",
+            "linha": 6,
+            "coluna": 13,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 6,
+            "coluna": 16,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "PLUS",
+            "linha": 6,
+            "coluna": 18,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 6,
+            "coluna": 19,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 7,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 7,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 7,
+            "coluna": 3,
+            "simbolo_id": 9
+        },
+        {
+            "tipo": "KEYWORD_RES",
+            "linha": 7,
+            "coluna": 5,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 7,
+            "coluna": 8,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 7,
+            "coluna": 10,
+            "simbolo_id": 10
+        },
+        {
+            "tipo": "DIV",
+            "linha": 7,
+            "coluna": 12,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 7,
+            "coluna": 13,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 8,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 8,
+            "coluna": 2,
+            "simbolo_id": 11
+        },
+        {
+            "tipo": "ID",
+            "linha": 8,
+            "coluna": 8,
+            "simbolo_id": 12
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 8,
+            "coluna": 9,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 9,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 9,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "ID",
+            "linha": 9,
+            "coluna": 3,
+            "simbolo_id": 12
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 9,
+            "coluna": 4,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 9,
+            "coluna": 6,
+            "simbolo_id": 13
+        },
+        {
+            "tipo": "DIV",
+            "linha": 9,
+            "coluna": 9,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 9,
+            "coluna": 10,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 10,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 10,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "ID",
+            "linha": 10,
+            "coluna": 3,
+            "simbolo_id": 12
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 10,
+            "coluna": 4,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 10,
+            "coluna": 6,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 10,
+            "coluna": 7,
+            "simbolo_id": 8
+        },
+        {
+            "tipo": "KEYWORD_RES",
+            "linha": 10,
+            "coluna": 9,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 10,
+            "coluna": 12,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "PLUS",
+            "linha": 10,
+            "coluna": 14,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 10,
+            "coluna": 15,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 11,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 11,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 11,
+            "coluna": 3,
+            "simbolo_id": 1
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 11,
+            "coluna": 7,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 11,
+            "coluna": 8,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "NUM_INT",
+            "linha": 11,
+            "coluna": 12,
+            "simbolo_id": 8
+        },
+        {
+            "tipo": "PLUS",
+            "linha": 11,
+            "coluna": 14,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 11,
+            "coluna": 15,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "MULT",
+            "linha": 11,
+            "coluna": 17,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 11,
+            "coluna": 18,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 11,
+            "coluna": 20,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 11,
+            "coluna": 21,
+            "simbolo_id": 4
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 11,
+            "coluna": 25,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "DIV",
+            "linha": 11,
+            "coluna": 29,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 11,
+            "coluna": 30,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "MINUS",
+            "linha": 11,
+            "coluna": 32,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 11,
+            "coluna": 33,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 12,
+            "coluna": 1,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 12,
+            "coluna": 2,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "ID",
+            "linha": 12,
+            "coluna": 3,
+            "simbolo_id": 12
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 12,
+            "coluna": 4,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "LPAREN",
+            "linha": 12,
+            "coluna": 6,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 12,
+            "coluna": 7,
+            "simbolo_id": 2
+        },
+        {
+            "tipo": "NUM_FLOAT",
+            "linha": 12,
+            "coluna": 11,
+            "simbolo_id": 1
+        },
+        {
+            "tipo": "INT_DIV",
+            "linha": 12,
+            "coluna": 15,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 12,
+            "coluna": 17,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "MULT",
+            "linha": 12,
+            "coluna": 19,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "RPAREN",
+            "linha": 12,
+            "coluna": 20,
+            "simbolo_id": 0
+        },
+        {
+            "tipo": "EOF",
+            "linha": 12,
+            "coluna": 21,
+            "simbolo_id": 0
+        }
+    ]
+}
