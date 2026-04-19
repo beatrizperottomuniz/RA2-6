@@ -10,9 +10,10 @@ class TokenType:
     KEYWORD_START = "KEYWORD_START"
     KEYWORD_END = "KEYWORD_END"
     KEYWORD_IF = "KEYWORD_IF"
-    KEYWORD_ELSE = "KEYWORD_ELSE" # verificar
-    KEYWORD_WHILE = "KEYWORD_WHILE" # verificar
-    KEYWORD_FOR = "KEYWORD_FOR" # verificar
+    KEYWORD_ELSE = "KEYWORD_ELSE" 
+    # KEYWORD_THEN = "KEYWORD_THEN" 
+    KEYWORD_WHILE = "KEYWORD_WHILE" 
+    KEYWORD_FOR = "KEYWORD_FOR"
     # id (variaveis) e tipos literais
     ID = "ID"
     NUM_INT = "NUM_INT"
@@ -25,13 +26,13 @@ class TokenType:
     INT_DIV = "INT_DIV"
     MOD = "MOD"
     POW = "POW"
-    #operadores de comparacao
-    GT = ">"
-    LT = "<"
-    GE = ">="
-    LE = "<="
-    EQ = "=="
-    NEQ = "!="
+    #operadores para comparacao
+    GT  = "GT"  # >                                                                                                         
+    LT  = "LT"  # <
+    GTE = "GTE"  # >=
+    LTE = "LTE"  # <=
+    EQ  = "EQ"  # ==
+    NEQ = "NEQ"  # !=
     # divisor de operacoes
     LPAREN = "LPAREN"
     RPAREN = "RPAREN"

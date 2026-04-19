@@ -5,7 +5,7 @@
 **Professor** : Frank Coelho de Alcantara<br>
 **Aluna** : Beatriz Perotto Muniz [@beatrizperottomuniz](https://github.com/beatrizperottomuniz)<br>
 
-### Descrição
+### Descrição -> ATUALIZAR
 Este projeto implementa um analisador léxico capaz de identificar tokens e gerar código assembly correspondente.
 
 ### Requisitos 
@@ -19,7 +19,7 @@ python3 --version
 Este projeto foi desenvolvido em Python, uma linguagem interpretada, portanto não há etapa de compilação explícita. <br>
 A execução é feita diretamente pelo interpretador Python.<br>
 
-### Como executar
+### Como executar -> ATUALIZAR
 Após clonar o diretório, rode o comando <br>
 ```
 python3 main.py nome_do_seu_arquivo.txt
@@ -31,7 +31,7 @@ Onde:
 _Observação:_
 Dependendo da configuração do sistema operacional, o comando `python` pode estar vinculado ao Python 3. Nesse caso, o comando `python3` pode ser substituído por `python`. <br>
 
-### Como testar
+### Como testar -> ATUALIZAR
 #### Rodando com programas de teste fornecidos
 1. Após clonar o diretório, rode o comando
 ```
@@ -46,15 +46,46 @@ _Obs : também estão disponiveis os arquivos teste02.txt e teste03.txt_ <br>
 6. OPCIONAL : Use "Step Over" para ver as instruções sendo executadas passo a passo (visualize em d0 os resultados das operações).<br>
 7. Clique em "Continue" e verifique na JTAG UART os resultados em hexadecimal. Verifique se os resultados estão corretos visualizando (no terminal em que o comando do passo 1 foi rodado) os valores esperados para as operações. <br>
 
-#### Rodando funções de testes
+#### Rodando funções de testes -> ATUALIZAR
 ```
 python3 teste_analisadorLexico.py
 ```
 _Obs : acesse os arquivos para verificação de detalhes dos testes_ <br>
 
-### Observações
-1. O nome do diretório não aparece como RA1 6 pois a plataforma não permite, adicionando um '-' <br>
-2. Foi requisitado que fosse testado com entradas com parênteses desbalanceados, este teste está incluído no arquivo de testes para processo completo, e não no de analisador léxico, pois a função responsável pela validação não está incluída neste módulo, já que essa verificação não faz parte do processo de análise léxica, que apenas gera os tokens.<br>
-3. A assinatura da função `gerarAssembly(const std::vector< std::string >& _tokens_, std::string& codigoAssembly)` foi alterada para referenciar um VETOR de string "codigoAssembly" , já que na linguagem usada strings são imutáveis. <br>
-4. A função executarExpressao está no main porque o enunciado exige (seção 26.7.4), e é usada para validar o Assembly gerado, como indicado na seção 26.7.2. O cálculo real ocorre no Assembly rodando no CPUlator.<br>
-5. Os arquivos de saída em assembly e de tokens mostrados no repositório são correspondentes ao `teste03.txt`.<br>
+### Novas estruturas -> ATUALIZAR
+**Para a presente documentação , consideraremos :** <br>
+`exp` = um número inteiro (ex: 20); um número real (ex: 20.1); uma leitura de memória (ex: (X)); um resultado anterior lido com RES (ex: (1 RES)); uma expressão aritmética aninhada. A única operacao definida na fase anterior que nao pode ser usada é a atribuicao de um valor a memoria (ex: (1 CONTADOR)) <br>
+`stmt` = qualquer instrução completa entre parênteses <br>
+`cond` = expressão que retorna verdadeiro ou falso: (`exp exp operador_relacional`) <br>
+`operador_relacional` = `==`, `!=`, `>`, `<`, `>=`, `<=` <br>
+
+**Expressões de condição (cond)**
+_Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado_
+| Comando | Função | Exemplo | Resultado esperado para o exemplo |
+|----------|----------|----------|----------|
+| (exp exp ==) | Verificar se o primeiro parâmetro é igual ao segundo | (10 (CONTADOR) ==) | Falso 
+| (exp exp !=) | Verificar se o primeiro parâmetro é diferente do segundo | (10 (CONTADOR) !=) | Verdadeiro
+| (exp exp >) | Verificar se o primeiro parâmetro é maior que o segundo | (10 (CONTADOR) >) | Verdadeiro
+| (exp exp <) | Verificar se o primeiro parâmetro é menos que o segundo | (10 (CONTADOR) <)| Falso
+| (exp exp >=) | Verificar se o primeiro parâmetro é maior ou igual ao segundo | (5 (CONTADOR) >=) | Verdadeiro
+| (exp exp <=) | Verificar se o primeiro parâmetro é menor ou igual ao segundo | (5 (CONTADOR) <=) | Verdadeiro
+
+**Estrutura de decisão**
+| Comando | Função | Exemplo | Resultado esperado para o exemplo |
+|----------|----------|----------|----------|
+| (cond stmt IF) | Realizar uma comando (stmt) caso a condição (cond) seja satisfeita | ((5 5 ==) (1 2 +) IF) | Será executada o comando (1 2 +)
+| ((cond stmt1 IF) stmt2 ELSE) | Realizar uma comando (stmt1) caso a condição (cond) seja satisfeita e realizar outro comando (stmt2) caso não seja | (((10 5 ==) (1 2 +) IF) (1 5 +) ELSE) | Será executada o comando (1 5 +)
+
+**Laços de controle**
+| Comando | Função | Exemplo | Resultado esperado para o exemplo |
+|----------|----------|----------|----------|
+| (N stmt FOR) | Repete o comando (stmt) N vezes (passo 1, de 1 até N)| (3 ((1 (CONTADOR) +) CONTADOR) FOR) | Incrementa o contador  3 vezes, com este contendo o valor 8 ao final do loop FOR
+| (cond stmt WHILE) | Repete o comando (stmt) enquanto a condição (cond) seja satisfeita | ((5 2 <=) (1 2 +) WHILE) | Como a condicao nunca é satisfeita, a operação não será realizada. 
+
+
+
+_(cond stmt stmt ... IF)((cond stmt stmt ... IF) stmt stmt ... ELSE)(N stmt stmt ... FOR)(cond stmt stmt ... WHILE)_
+### Observações -> ATUALIZAR
+1. Foi requisitado que fosse testado com entradas com parênteses desbalanceados, este teste está incluído no arquivo de testes para processo completo, e não no de analisador léxico, pois a função responsável pela validação não está incluída neste módulo, já que essa verificação não faz parte do processo de análise léxica, que apenas gera os tokens.<br>
+2. Os arquivos de saída em assembly e de tokens mostrados no repositório são correspondentes ao `teste03.txt`.<br>
+
