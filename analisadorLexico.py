@@ -26,8 +26,8 @@ class Lexer:
             "END": TokenType.KEYWORD_END,
             "IF": TokenType.KEYWORD_IF,
             "ELSE": TokenType.KEYWORD_ELSE,
-            #"THEN": TokenType.KEYWORD_THEN,
-            "WHILE": TokenType.KEYWORD_WHILE,
+            # "THEN": TokenType.KEYWORD_THEN,
+            # "WHILE": TokenType.KEYWORD_WHILE,
             "FOR": TokenType.KEYWORD_FOR
         }
         self.operadores = "+-*/%^><!="

@@ -12,7 +12,7 @@ class TokenType:
     KEYWORD_IF = "KEYWORD_IF"
     KEYWORD_ELSE = "KEYWORD_ELSE" 
     # KEYWORD_THEN = "KEYWORD_THEN" 
-    KEYWORD_WHILE = "KEYWORD_WHILE" 
+    # KEYWORD_WHILE = "KEYWORD_WHILE" 
     KEYWORD_FOR = "KEYWORD_FOR"
     # id (variaveis) e tipos literais
     ID = "ID"
