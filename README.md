@@ -5,7 +5,7 @@
 **Professor** : Frank Coelho de Alcantara<br>
 **Aluna** : Beatriz Perotto Muniz [@beatrizperottomuniz](https://github.com/beatrizperottomuniz)<br>
 
-### Descrição
+### Descrição -> ATUALIZAR
 Este projeto implementa um analisador léxico capaz de identificar tokens e gerar código assembly correspondente.
 
 ### Requisitos 
@@ -19,7 +19,7 @@ python3 --version
 Este projeto foi desenvolvido em Python, uma linguagem interpretada, portanto não há etapa de compilação explícita. <br>
 A execução é feita diretamente pelo interpretador Python.<br>
 
-### Como executar
+### Como executar -> ATUALIZAR
 Após clonar o diretório, rode o comando <br>
 ```
 python3 main.py nome_do_seu_arquivo.txt
@@ -31,7 +31,7 @@ Onde:
 _Observação:_
 Dependendo da configuração do sistema operacional, o comando `python` pode estar vinculado ao Python 3. Nesse caso, o comando `python3` pode ser substituído por `python`. <br>
 
-### Como testar
+### Como testar -> ATUALIZAR
 #### Rodando com programas de teste fornecidos
 1. Após clonar o diretório, rode o comando
 ```
@@ -46,15 +46,53 @@ _Obs : também estão disponiveis os arquivos teste02.txt e teste03.txt_ <br>
 6. OPCIONAL : Use "Step Over" para ver as instruções sendo executadas passo a passo (visualize em d0 os resultados das operações).<br>
 7. Clique em "Continue" e verifique na JTAG UART os resultados em hexadecimal. Verifique se os resultados estão corretos visualizando (no terminal em que o comando do passo 1 foi rodado) os valores esperados para as operações. <br>
 
-#### Rodando funções de testes
+#### Rodando funções de testes -> ATUALIZAR
 ```
 python3 teste_analisadorLexico.py
 ```
 _Obs : acesse os arquivos para verificação de detalhes dos testes_ <br>
 
-### Observações
-1. O nome do diretório não aparece como RA1 6 pois a plataforma não permite, adicionando um '-' <br>
-2. Foi requisitado que fosse testado com entradas com parênteses desbalanceados, este teste está incluído no arquivo de testes para processo completo, e não no de analisador léxico, pois a função responsável pela validação não está incluída neste módulo, já que essa verificação não faz parte do processo de análise léxica, que apenas gera os tokens.<br>
-3. A assinatura da função `gerarAssembly(const std::vector< std::string >& _tokens_, std::string& codigoAssembly)` foi alterada para referenciar um VETOR de string "codigoAssembly" , já que na linguagem usada strings são imutáveis. <br>
-4. A função executarExpressao está no main porque o enunciado exige (seção 26.7.4), e é usada para validar o Assembly gerado, como indicado na seção 26.7.2. O cálculo real ocorre no Assembly rodando no CPUlator.<br>
-5. Os arquivos de saída em assembly e de tokens mostrados no repositório são correspondentes ao `teste03.txt`.<br>
+### Novas estruturas -> ATUALIZAR
+**Para a presente documentação , consideraremos :** <br>
+`exp` = um número inteiro (ex: 20); um número real (ex: 20.1); uma leitura de memória (ex: (X)); um resultado anterior lido com RES (ex: (1 RES)); uma expressão aritmética aninhada. A única operacao definida na fase anterior que nao pode ser usada é a atribuicao de um valor a memoria (ex: (1 CONTADOR)) <br>
+`stmt` = qualquer instrução completa entre parênteses <br>
+`cond` = expressão que retorna verdadeiro ou falso: (`exp exp operador_relacional`) <br>
+`operador_relacional` = `==`, `!=`, `>`, `<`, `>=`, `<=` <br>
+
+**Expressões de condição (cond)**
+_Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado_
+| Comando | Função | Exemplo | Resultado esperado para o exemplo |
+|----------|----------|----------|----------|
+| (exp exp ==) | Verificar se o primeiro parâmetro é igual ao segundo | (10 (CONTADOR) ==) | Falso 
+| (exp exp !=) | Verificar se o primeiro parâmetro é diferente do segundo | (10 (CONTADOR) !=) | Verdadeiro
+| (exp exp >) | Verificar se o primeiro parâmetro é maior que o segundo | (10 (CONTADOR) >) | Verdadeiro
+| (exp exp <) | Verificar se o primeiro parâmetro é menos que o segundo | (10 (CONTADOR) <)| Falso
+| (exp exp >=) | Verificar se o primeiro parâmetro é maior ou igual ao segundo | (5 (CONTADOR) >=) | Verdadeiro
+| (exp exp <=) | Verificar se o primeiro parâmetro é menor ou igual ao segundo | (5 (CONTADOR) <=) | Verdadeiro
+
+**Estrutura de decisão**
+| Comando | Função | Exemplo | Resultado esperado para o exemplo |
+|----------|----------|----------|----------|
+| (cond stmt IF) | Realizar uma comando (stmt) caso a condição (cond) seja satisfeita | ((5 5 ==) (1 2 +) IF) | Será executada o comando (1 2 +)
+| ((cond stmt1 IF) stmt2 ELSE) | Realizar uma comando (stmt1) caso a condição (cond) seja satisfeita e realizar outro comando (stmt2) caso não seja | (((10 5 ==) (1 2 +) IF) (1 5 +) ELSE) | Será executada o comando (1 5 +)
+
+**Laços de controle**
+| Comando | Função | Exemplo | Resultado esperado para o exemplo |
+|----------|----------|----------|----------|
+| (N stmt FOR) | Repete o comando (stmt) N (número inteiro positivo maior que 1) vezes (passo 1, de 1 até N)| (3 ((1 (CONTADOR) +) CONTADOR) FOR) | Incrementa o contador  3 vezes, com este contendo o valor 8 ao final do loop FOR
+
+
+
+_(cond stmt stmt ... IF)((cond stmt stmt ... IF) stmt stmt ... ELSE)(N stmt stmt ... FOR)(cond stmt stmt ... WHILE)_
+### Observações -> ATUALIZAR
+1. Foi requisitado que fosse testado com entradas com parênteses desbalanceados, este teste está incluído no arquivo de testes para processo completo, e não no de analisador léxico, pois a função responsável pela validação não está incluída neste módulo, já que essa verificação não faz parte do processo de análise léxica, que apenas gera os tokens.<br>
+2. Os arquivos de saída em assembly e de tokens mostrados no repositório são correspondentes ao `teste03.txt`.<br>
+3. Foi usado `/` para divisão real e `//`pra divisão inteira, como especificado na primeira fase, após professor confirmar que o enunciado teve erro de digitação.<br>
+
+***Validações que serão semânticas (não feitas pelo parser)**
+1. Condição do IF deve usar operador relacional — a gramática aceita qualquer stmt como condição, mas semanticamente só faz sentido (exp exp op_rel). Ex: ((1 2 +) (3 4 *) IF) passa no parser mas é inválido semanticamente. <br>
+2. Operando do RES deve ser NUM_INT positivo — (2.5 RES) ou (-1 RES) passam no parser mas são inválidos. <br>
+3. Operando do FOR deve ser NUM_INT positivo maior que 1 — (3.5 (stmt) FOR) ou (0 (stmt) FOR) passam no parser mas são inválidos. <br>
+4. Atribuição não pode ser usada como operando — ((5 CONTADOR) (1 2 +) IF) passa no parser, mas (5 CONTADOR) é uma atribuição e não retorna valor.<br>
+5. Expoente da potenciação deve ser NUM_INT positivo — (2 3.5 ^) e (2 -1 ^) passam no parser.<br>
+6. Operando do ELSE deve ser resultado de um IF — a gramática aceita qualquer stmt como primeiro operando do ELSE, mas semanticamente deve ser um IF.<br>

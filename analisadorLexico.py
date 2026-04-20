@@ -20,8 +20,17 @@ class Lexer:
 
         self.inicio_col = 1
         self.estado_atual = self.estadoInicio
-        self.keywords = {"RES": TokenType.KEYWORD_RES}
-        self.operadores = "+-*/%^"
+        self.keywords = {
+            "RES": TokenType.KEYWORD_RES,
+            "START": TokenType.KEYWORD_START,
+            "END": TokenType.KEYWORD_END,
+            "IF": TokenType.KEYWORD_IF,
+            "ELSE": TokenType.KEYWORD_ELSE,
+            # "THEN": TokenType.KEYWORD_THEN,
+            # "WHILE": TokenType.KEYWORD_WHILE,
+            "FOR": TokenType.KEYWORD_FOR
+        }
+        self.operadores = "+-*/%^><!="
         self.simbolos = {
             '+': TokenType.PLUS,
             '-': TokenType.MINUS,
@@ -29,6 +38,8 @@ class Lexer:
             '/': TokenType.DIV,
             '%': TokenType.MOD,
             '^': TokenType.POW,
+            '>': TokenType.GT,                                                                                                   
+            '<': TokenType.LT,
         }
 
     # olha proximo sem consumir
@@ -121,6 +132,31 @@ class Lexer:
             self.buffer.append(self.peek())
             self.advance()
             self.emit(TokenType.INT_DIV)
+            return self.estadoInicio
+        
+        # adicionado na segunda fase pros ops logicos
+        if char == '>' and self.peek() == '=':                                                                                 
+            self.buffer.append(self.peek())                                                                                  
+            self.advance()                                                                                                     
+            self.emit(TokenType.GTE)
+            return self.estadoInicio                                                                                           
+                                                                                                                           
+        if char == '<' and self.peek() == '=':
+            self.buffer.append(self.peek())
+            self.advance()
+            self.emit(TokenType.LTE)                                                                                           
+            return self.estadoInicio
+                                                                                                                                
+        if char == '=' and self.peek() == '=':                                                                               
+            self.buffer.append(self.peek())
+            self.advance()
+            self.emit(TokenType.EQ)
+            return self.estadoInicio                                                                                           
+    
+        if char == '!' and self.peek() == '=':                                                                                 
+            self.buffer.append(self.peek())                                                                                  
+            self.advance()
+            self.emit(TokenType.NEQ)
             return self.estadoInicio
 
         if char in self.simbolos:
