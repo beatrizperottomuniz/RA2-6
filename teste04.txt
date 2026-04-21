@@ -1,0 +1,16 @@
+o com erros
+
+Fornecer um mínimo de 3 arquivos de texto, cada um com pelo menos 10 linhas de expressões
+segundo as especificações deste documento.
+Requisitos dos Arquivos de Teste:
+Cada arquivo deve incluir todas as operações (+, -
+, *, |, /, %,
+^);
+Cada arquivo deve incluir todos os comandos especiais ((N RES), (V MEM), (MEM));
+Cada arquivo deve incluir pelo menos um laço de repetição;
+Cada arquivo deve incluir pelo menos uma tomada de decisão;
+Os testes devem incluir literais inteiros, reais e o uso de memórias (variáveis);
+
+Incluir casos de teste com erros léxicos e sintáticos para validar o tratamento de erros.
+Os arquivos devem estar no mesmo diretório do código-fonte e ser processados via argumento de
+linha de comando (ex.: ./AnalisadorSintatico teste1.txt).
