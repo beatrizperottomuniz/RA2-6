@@ -236,7 +236,7 @@ def imprimeTabelaMarkdown(): # pra documentacao
     return "\n".join(linhas_md)
 
 
-def construirGramatica():
+def construirGramatica(): # a que vai ser chamada na main nova
     calcularNullable()
     calcularFirst()
     calcularFollow()
@@ -244,7 +244,7 @@ def construirGramatica():
 
     return {
         'gramatica': gramatica_definida,
-        'nullable':  nullable,
+        #'nullable':  nullable,
         'first':     first,
         'follow':    follow,
         'tabela':    tabela
