@@ -38,7 +38,7 @@ class Lexer:
             '/': TokenType.DIV,
             '%': TokenType.MOD,
             '^': TokenType.POW,
-            '>': TokenType.GT,                                                                                                   
+            '>': TokenType.GT,
             '<': TokenType.LT,
         }
 
@@ -135,26 +135,26 @@ class Lexer:
             return self.estadoInicio
         
         # adicionado na segunda fase pros ops logicos
-        if char == '>' and self.peek() == '=':                                                                                 
-            self.buffer.append(self.peek())                                                                                  
-            self.advance()                                                                                                     
+        if char == '>' and self.peek() == '=':
+            self.buffer.append(self.peek())
+            self.advance()
             self.emit(TokenType.GTE)
-            return self.estadoInicio                                                                                           
-                                                                                                                           
+            return self.estadoInicio
+
         if char == '<' and self.peek() == '=':
             self.buffer.append(self.peek())
             self.advance()
-            self.emit(TokenType.LTE)                                                                                           
+            self.emit(TokenType.LTE)
             return self.estadoInicio
-                                                                                                                                
-        if char == '=' and self.peek() == '=':                                                                               
+
+        if char == '=' and self.peek() == '=':
             self.buffer.append(self.peek())
             self.advance()
             self.emit(TokenType.EQ)
-            return self.estadoInicio                                                                                           
+            return self.estadoInicio
     
-        if char == '!' and self.peek() == '=':                                                                                 
-            self.buffer.append(self.peek())                                                                                  
+        if char == '!' and self.peek() == '=':
+            self.buffer.append(self.peek())
             self.advance()
             self.emit(TokenType.NEQ)
             return self.estadoInicio
