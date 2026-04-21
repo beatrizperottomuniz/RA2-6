@@ -81,21 +81,26 @@ gramatica_definida = {
 
 simbolo_inicial_gramatica = 'prog'
 epsilon = 'ε'
-
+# globais 
+nullable = set()
+first = {}
+follow = {}
+tabela = {}
 # auxiliares
 
 # A logica de calculo das funcoes foi adaptada a partir do pseudocodigo de: https://frankalcantara.com/lf/05-parsersLL1.html
 # nas regras atuais nenhum nt é nullable, feito pra proximas fases se precisar
-def calcularNullable(gramatica):
+def calcularNullable():
+    global nullable
     nullable = set()
-    for nt, producoes in gramatica.items():
+    for nt, producoes in gramatica_definida.items():
         for producao in producoes:
             if not producao or producao == [epsilon]:
                 nullable.add(nt)
     mudou = True
     while mudou:
         mudou = False
-        for nt, producoes in gramatica.items():
+        for nt, producoes in gramatica_definida.items():
             if nt not in nullable:
                 for producao in producoes:
                     if not producao or producao == [epsilon]:
@@ -109,15 +114,15 @@ def calcularNullable(gramatica):
     return nullable
 
 
-def eTerminal(simbolo, gramatica):
-    return simbolo not in gramatica
+def eTerminal(simbolo):
+    return simbolo not in gramatica_definida
 
 
-def firstDeSequencia(sequencia, first, gramatica, nullable):
+def firstDeSequencia(sequencia):
    # calcula FIRST de uma sequencia de simbolos
     resultado = set()
     for simbolo in sequencia:
-        if eTerminal(simbolo, gramatica):
+        if eTerminal(simbolo):
             if simbolo != epsilon:
                 resultado.add(simbolo)
             break
@@ -130,36 +135,38 @@ def firstDeSequencia(sequencia, first, gramatica, nullable):
     return resultado
 
 
-def calcularFirst(gramatica, nullable):
+def calcularFirst():
     # só pros nts, o de um terminal é ele mesmo
-    firsts = {nt: set() for nt in gramatica}
+    global first
+    first = {nt: set() for nt in gramatica_definida}
 
     mudou = True
     while mudou:
         mudou = False
-        for nt, producoes in gramatica.items():
+        for nt, producoes in gramatica_definida.items():
             for producao in producoes:
-                antes = len(firsts[nt])
-                firsts[nt].update(firstDeSequencia(producao, firsts, gramatica, nullable))
-                if len(firsts[nt]) != antes:
+                antes = len(first[nt])
+                first[nt].update(firstDeSequencia(producao))
+                if len(first[nt]) != antes:
                     mudou = True
 
-    return firsts
+    #return first
 
 
-def calcularFollow(gramatica, first, nullable, simbolo_inicial=simbolo_inicial_gramatica):
-    follow = {nt: set() for nt in gramatica}
-    follow[simbolo_inicial].add('EOF')
+def calcularFollow():
+    global follow
+    follow = {nt: set() for nt in gramatica_definida}
+    follow[simbolo_inicial_gramatica].add('EOF')
 
     mudou = True
     while mudou:
         mudou = False
-        for nt, producoes in gramatica.items():
+        for nt, producoes in gramatica_definida.items():
             for producao in producoes:
                 for i, simbolo in enumerate(producao):
-                    if not eTerminal(simbolo, gramatica):
+                    if not eTerminal(simbolo):
                         beta = producao[i + 1:]
-                        first_beta = firstDeSequencia(beta, first, gramatica, nullable)
+                        first_beta = firstDeSequencia(beta)
 
                         antes = len(follow[simbolo])
                         follow[simbolo].update(first_beta - {epsilon})
@@ -171,13 +178,14 @@ def calcularFollow(gramatica, first, nullable, simbolo_inicial=simbolo_inicial_g
     return follow
 
 
-def construirTabelaLL1(gramatica, first, follow, nullable):
-    tabela = {nt: {} for nt in gramatica}
+def construirTabelaLL1():
+    global tabela
+    tabela = {nt: {} for nt in gramatica_definida}
     conflitos = []
 
-    for nt, producoes in gramatica.items():
+    for nt, producoes in gramatica_definida.items():
         for producao in producoes:
-            first_prod = firstDeSequencia(producao, first, gramatica, nullable)
+            first_prod = firstDeSequencia(producao)
             terminais = first_prod - {epsilon}
 
             if epsilon in first_prod:
@@ -195,7 +203,7 @@ def construirTabelaLL1(gramatica, first, follow, nullable):
 
     return tabela
 
-def imprimeTabelaMarkdown(tabela: dict) -> str: # pra documentacao
+def imprimeTabelaMarkdown(): # pra documentacao
     nao_terminais = sorted(tabela.keys())
     terminais_set = set()
     for nt in tabela:
@@ -229,14 +237,13 @@ def imprimeTabelaMarkdown(tabela: dict) -> str: # pra documentacao
 
 
 def construirGramatica():
-    nullable = calcularNullable(gramatica_definida)
-    gramatica = gramatica_definida
-    first     = calcularFirst(gramatica, nullable)
-    follow    = calcularFollow(gramatica, first, nullable)
-    tabela    = construirTabelaLL1(gramatica, first, follow, nullable)
+    calcularNullable()
+    calcularFirst()
+    calcularFollow()
+    construirTabelaLL1()
 
     return {
-        'gramatica': gramatica,
+        'gramatica': gramatica_definida,
         'nullable':  nullable,
         'first':     first,
         'follow':    follow,
@@ -244,7 +251,7 @@ def construirGramatica():
     }
 
 
-# debug
+# debug e documentacao
 
 if __name__ == '__main__':
     resultado = construirGramatica()
@@ -264,4 +271,4 @@ if __name__ == '__main__':
             print(f"  [{nt}, {terminal}] → {prod_str}")
 
     print("\nTABELA FINAL --------------")
-    print(imprimeTabelaMarkdown(resultado['tabela']))
+    print(imprimeTabelaMarkdown())
