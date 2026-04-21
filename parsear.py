@@ -8,7 +8,8 @@ from construirGramatica import construirGramatica, simbolo_inicial_gramatica
 from globalVars import string_pool_global
 
 # arrumar parte de erros
-MAX_ERROS = 10
+maximo_de_erros = 10
+tokens_sincronizacao = {'RPAREN','EOF'}
 
 class Buffer: # buffer tem os tokens, pilha tem os nao terminais 
     def __init__(self, tokens):
@@ -43,15 +44,15 @@ class Parser:
         self.pilha       = [simbolo_inicial_gramatica]
 
     # pros erros -------------------
+    def sincronizar(self):
+        while self.buffer.lookahead() not in tokens_sincronizacao:
+            self.buffer.consumir()
 
     def _erro(self, msg):
-        if len(self.erros) < MAX_ERROS:
+        if len(self.erros) < maximo_de_erros:
             self.erros.append(msg)
-        elif len(self.erros) == MAX_ERROS:
+        elif len(self.erros) == maximo_de_erros:
             self.erros.append("Muitos erros sintáticos — análise interrompida.")
-
-    def _com_erros(self):
-        return len(self.erros) >= MAX_ERROS
 
     # pra pilha -------------------
 
@@ -80,6 +81,7 @@ class Parser:
             f"Erro sintático (linha {linha}, col {coluna}): "
             f"esperado '{tipo_esperado}', encontrado '{tipo}' {lexema}"
         )
+        self.sincronizar()
         return None
 
     def expandir(self, nao_terminal): # nao terminal que estamos querendo achar regra
@@ -110,6 +112,7 @@ class Parser:
                 f"em '{nao_terminal}', token '{tipo}' inesperado{lexema}. "
                 f"Esperados: {esperados}"
             )
+            self.sincronizar()
             return None
 
         # regra da celula 
@@ -297,6 +300,12 @@ def parsear(_tokens_, tabela_ll1):
             f"tokens inesperados após fim do programa ('{token_rest.tipo}')"
         )
 
+    """
+    formatos dos passos de derivacao :
+        {'tipo': 'expansao', 'nao_terminal': str, 'producao': list[str]}
+        {'tipo': 'match',    'terminal': str,     'token': Token}
+        {'tipo': 'epsilon',  'nao_terminal': str}
+    """
     return {
         'derivacao': parser.derivacao,
         'erros'    : parser.erros
