@@ -14,7 +14,7 @@ tokens_sincronizacao = {'RPAREN','EOF'}
 class Buffer: # buffer tem os tokens, pilha tem os nao terminais 
     def __init__(self, tokens):
         self.tokens = tokens
-        self.pos    = 0
+        self.pos = 0
 
     def atual(self):
         if self.pos < len(self.tokens):
@@ -37,18 +37,18 @@ class Buffer: # buffer tem os tokens, pilha tem os nao terminais
 
 class Parser:
     def __init__(self, _tokens_, tabela_ll1):
-        self.buffer      = Buffer(_tokens_)
-        self.tabela      = tabela_ll1
-        self.estrutura_derivacao   = []
-        self.erros       = []
-        self.pilha       = [simbolo_inicial_gramatica]
+        self.buffer = Buffer(_tokens_)
+        self.tabela = tabela_ll1
+        self.estrutura_derivacao = []
+        self.erros = []
+        self.pilha = [simbolo_inicial_gramatica]
 
     # pros erros -------------------
     def sincronizar(self):
         while self.buffer.lookahead() not in tokens_sincronizacao:
             self.buffer.consumir()
 
-    def _erro(self, msg):
+    def erro(self, msg):
         if len(self.erros) < maximo_de_erros:
             self.erros.append(msg)
         elif len(self.erros) == maximo_de_erros:
@@ -75,7 +75,7 @@ class Parser:
         if token : 
             lexema = string_pool_global.obterString(token.simbolo_id)
 
-        self._erro(
+        self.erro(
             f"Erro sintático (linha {linha}, col {coluna}): "
             f"esperado '{tipo_esperado}', encontrado '{tipo}' {lexema}"
         )
@@ -102,7 +102,7 @@ class Parser:
             lexema = ""
             if token : 
                 lexema = string_pool_global.obterString(token.simbolo_id)
-            self._erro(
+            self.erro(
                 f"Erro sintático (linha {linha}, col {coluna}): "
                 f"em '{nao_terminal}', token '{tipo}' inesperado{lexema}. "
                 f"Esperados: {esperados}"
@@ -290,7 +290,7 @@ def parsear(_tokens_, tabela_ll1):
 
     token_rest = parser.buffer.atual()
     if token_rest and token_rest.tipo != 'EOF':
-        parser._erro(
+        parser.erro(
             f"Erro sintático (linha {token_rest.linha}): "
             f"tokens inesperados após fim do programa ('{token_rest.tipo}')"
         )
