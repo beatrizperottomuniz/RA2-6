@@ -138,41 +138,72 @@ def salvarArvoreMD(raiz, arquivo=arqv_md):
 
 # png
 
+def calcularPos(no, profundidade, posicoes, contador_folha):
+    if not no.filhos:
+        x = contador_folha[0]
+        contador_folha[0] += 1
+    else:
+        for filho in no.filhos:
+            calcularPos(filho, profundidade + 1, posicoes, contador_folha)
+        xs = [posicoes[id(f)][0] for f in no.filhos]
+        x  = (xs[0] + xs[-1]) / 2
+    posicoes[id(no)] = (x, profundidade)
+
+def desenhar(no, posicoes, ax, BOX_W, BOX_H):
+    try:
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.patches as mpatches
+    except ImportError:
+        return
+    
+    x, y = posicoes[id(no)]
+    y_plot = -y
+
+    label = no.tipo
+    if no.token:
+        lexema = string_pool_global.obterString(no.token.simbolo_id)
+        if lexema and lexema != "desconhecido":
+            label += f'\n"{lexema}"'
+        label += f'\nL{no.token.linha}:{no.token.coluna}'
+
+    cor = "#f6dafb" if (not no.token and no.tipo != 'ε') else "#dfcdfa"
+
+    caixa = mpatches.FancyBboxPatch(
+        (x - BOX_W / 2, y_plot - BOX_H / 2), BOX_W, BOX_H,
+        boxstyle="round,pad=0.05", linewidth=0.8,
+        edgecolor='#555555', facecolor=cor
+    )
+    ax.add_patch(caixa)
+    ax.text(x, y_plot, label, ha='center', va='center',
+            fontsize=7, fontfamily='monospace')
+
+    for filho in no.filhos:
+        fx, fy = posicoes[id(filho)]
+        fy_plot = -fy
+        ax.plot([x, fx], [y_plot - BOX_H / 2, fy_plot + BOX_H / 2],
+                color="#555555", linewidth=0.7, zorder=0)
+        desenhar(filho, posicoes, ax, BOX_W, BOX_H)
+
 def gerarArvorePNG(raiz, arquivo=arqv_png):
     try:
         import matplotlib
         matplotlib.use('Agg')
         import matplotlib.pyplot as plt
-        import matplotlib.patches as mpatches
     except ImportError:
         print("[aviso] matplotlib não instalado —> PNG não gerado "
               "Execute: pip install matplotlib")
         return
 
-    # ── 1. calcular posições ──────────────────
-    # x: atribuído às folhas em ordem (0, 1, 2, ...)
-    # y: profundidade (0 = raiz, aumenta para baixo)
-
     posicoes = {}          # no -> (x, y)
     contador_folha = [0]
 
-    def _calcular_pos(no, profundidade):
-        if not no.filhos:
-            x = contador_folha[0]
-            contador_folha[0] += 1
-        else:
-            for filho in no.filhos:
-                _calcular_pos(filho, profundidade + 1)
-            xs = [posicoes[id(f)][0] for f in no.filhos]
-            x  = (xs[0] + xs[-1]) / 2
-        posicoes[id(no)] = (x, profundidade)
-
-    _calcular_pos(raiz, 0)
+    calcularPos(raiz, 0, posicoes, contador_folha)
 
     total_folhas = contador_folha[0]
     max_prof     = max(y for x, y in posicoes.values()) if posicoes else 1
 
-    # ── 2. desenhar ──────────────────────────
+    # desenho
     larg  = max(10, total_folhas * 1.4)
     alt   = max(6,  (max_prof + 1) * 1.6)
     fig, ax = plt.subplots(figsize=(larg, alt))
@@ -183,40 +214,39 @@ def gerarArvorePNG(raiz, arquivo=arqv_png):
 
     BOX_W, BOX_H = 0.9, 0.45
 
-    def _desenhar(no):
-        x, y = posicoes[id(no)]
-        y_plot = -y # eixo y invertido (raiz no topo)
-
-        label = no.tipo
-        if no.token:
-            lexema = string_pool_global.obterString(no.token.simbolo_id)
-            if lexema and lexema != "desconhecido":
-                label += f'\n"{lexema}"'
-            label += f'\nL{no.token.linha}:{no.token.coluna}'
-
-        cor = "#f6dafb" if (not no.token and no.tipo != 'ε') else "#dfcdfa"
-
-        caixa = mpatches.FancyBboxPatch(
-            (x - BOX_W / 2, y_plot - BOX_H / 2), BOX_W, BOX_H,
-            boxstyle="round,pad=0.05", linewidth=0.8,
-            edgecolor='#555555', facecolor=cor
-        )
-        ax.add_patch(caixa)
-        ax.text(x, y_plot, label, ha='center', va='center',
-                fontsize=7, fontfamily='monospace')
-
-        for filho in no.filhos:
-            fx, fy = posicoes[id(filho)]
-            fy_plot = -fy
-            ax.plot([x, fx], [y_plot - BOX_H / 2, fy_plot + BOX_H / 2],
-                    color="#555555", linewidth=0.7, zorder=0)
-            _desenhar(filho)
-
-    _desenhar(raiz)
+    desenhar(raiz, posicoes, ax, BOX_W, BOX_H)
 
     nome_arquivo = arquivo
     plt.tight_layout()
     plt.savefig(nome_arquivo, dpi=150, bbox_inches='tight')
     plt.close()
 
+# debug
 
+if __name__ == '__main__':
+    from Token import Token, TokenType
+    from construirGramatica import construirGramatica
+    from parsear import parsear
+
+    resultado_gramatica = construirGramatica()
+    tabela = resultado_gramatica['tabela']
+
+    def t(tipo, linha=1, coluna=1):
+        return Token(tipo, linha, coluna, 0)
+
+    # (START) (3 4 +) (END)
+    tokens = [
+        t(TokenType.LPAREN),    t(TokenType.KEYWORD_START), t(TokenType.RPAREN),
+        t(TokenType.LPAREN, 2), t(TokenType.NUM_INT, 2),    t(TokenType.NUM_INT, 2),
+        t(TokenType.PLUS,   2), t(TokenType.RPAREN, 2),
+        t(TokenType.LPAREN),    t(TokenType.KEYWORD_END),   t(TokenType.RPAREN),
+        t(TokenType.EOF)
+    ]
+
+    resultado = parsear(tokens, tabela)
+    if resultado['erros']:
+        print("Erros:", resultado['erros'])
+    else:
+        raiz = gerarArvore(resultado['estrutura_derivacao'])
+        print(f"\nJSON salvo em '{arqv_json}'")
+        print(f"TXT salvo em  '{arqv_txt}'")
