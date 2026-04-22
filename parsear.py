@@ -39,7 +39,7 @@ class Parser:
     def __init__(self, _tokens_, tabela_ll1):
         self.buffer      = Buffer(_tokens_)
         self.tabela      = tabela_ll1
-        self.derivacao   = []
+        self.estrutura_derivacao   = []
         self.erros       = []
         self.pilha       = [simbolo_inicial_gramatica]
 
@@ -65,7 +65,7 @@ class Parser:
 
         if tipo == tipo_esperado:
             t = self.buffer.consumir()
-            self.derivacao.append({'tipo': 'match', 'terminal': tipo_esperado, 'token': t})
+            self.estrutura_derivacao.append({'tipo': 'match', 'terminal': tipo_esperado, 'token': t})
             return t
 
         # erro
@@ -73,10 +73,8 @@ class Parser:
         coluna = token.coluna if token else '?'
         lexema = ""
         if token : 
-            try:
-                lexema = string_pool_global.obterString(token.simbolo_id)
-            except Exception:
-                pass
+            lexema = string_pool_global.obterString(token.simbolo_id)
+
         self._erro(
             f"Erro sintático (linha {linha}, col {coluna}): "
             f"esperado '{tipo_esperado}', encontrado '{tipo}' {lexema}"
@@ -103,10 +101,7 @@ class Parser:
             esperados = sorted(self.tabela[nao_terminal].keys()) # tudo q podia pra aquele n terminal
             lexema = ""
             if token : 
-                try:
-                    lexema = string_pool_global.obterString(token.simbolo_id)
-                except Exception:
-                    pass
+                lexema = string_pool_global.obterString(token.simbolo_id)
             self._erro(
                 f"Erro sintático (linha {linha}, col {coluna}): "
                 f"em '{nao_terminal}', token '{tipo}' inesperado{lexema}. "
@@ -119,10 +114,10 @@ class Parser:
         producao = self.tabela[nao_terminal][tipo]
 
         if not producao:
-            self.derivacao.append({'tipo': 'epsilon', 'nao_terminal': nao_terminal})
+            self.estrutura_derivacao.append({'tipo': 'epsilon', 'nao_terminal': nao_terminal})
         else:
             # pra return
-            self.derivacao.append({
+            self.estrutura_derivacao.append({
                 'tipo': 'expansao',
                 'nao_terminal': nao_terminal,
                 'producao': producao
@@ -301,12 +296,12 @@ def parsear(_tokens_, tabela_ll1):
         )
 
     """
-    formatos dos passos de derivacao :
+    formatos dos passos de estrutura_derivacao :
         {'tipo': 'expansao', 'nao_terminal': str, 'producao': list[str]}
         {'tipo': 'match',    'terminal': str,     'token': Token}
         {'tipo': 'epsilon',  'nao_terminal': str}
     """
     return {
-        'derivacao': parser.derivacao,
+        'estrutura_derivacao': parser.estrutura_derivacao,
         'erros'    : parser.erros
     }

@@ -14,6 +14,10 @@ Verificar versão:
 ```
 python3 --version
 ```
+Matplotlib <br>
+```
+pip install matplotlib
+```
 
 ### Como compilar 
 Este projeto foi desenvolvido em Python, uma linguagem interpretada, portanto não há etapa de compilação explícita. <br>
