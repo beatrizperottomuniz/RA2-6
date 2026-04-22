@@ -38,19 +38,19 @@ def exportarTokens(lista_tokens, caminho_exportar="saida_tokens.txt"):
     except Exception as e:
         print(f"Falha ao salvar o arquivo de tokens: {e}")
 
-''' não inserido no analisador léxico pois é de responsabilidade de outra etapa; inserido por requisição em seção 26.3 :
-"(...) Entradas inválidas (ex.: (3.14 2.0 &), números malformados como 3.14.5, 3,45 ou parênteses desbalanceados). (...)"
-'''
-def verificacaoParentesesDesbalanceados(linha: str) -> bool:
-    pilha = []
-    for char in linha:
-        if char == '(':
-            pilha.append(char)
-        elif char == ')':
-            if not pilha:
-                return False
-            pilha.pop()
-    return not pilha
+# ''' não inserido no analisador léxico pois é de responsabilidade de outra etapa; inserido por requisição em seção 26.3 :
+# "(...) Entradas inválidas (ex.: (3.14 2.0 &), números malformados como 3.14.5, 3,45 ou parênteses desbalanceados). (...)"
+# '''
+# def verificacaoParentesesDesbalanceados(linha: str) -> bool:
+#     pilha = []
+#     for char in linha:
+#         if char == '(':
+#             pilha.append(char)
+#         elif char == ')':
+#             if not pilha:
+#                 return False
+#             pilha.pop()
+#     return not pilha
 
 # ------------------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
@@ -79,20 +79,20 @@ if __name__ == "__main__":
         if token_desconhecido_na_linha:
             erro_linha = True
 
-        if not verificacaoParentesesDesbalanceados(linha):
-            print(f"Erro na linha {globalVars.contador_linha_global}: parênteses desbalanceados\n")
-            erro_linha = True
+        # if not verificacaoParentesesDesbalanceados(linha):
+        #     print(f"Erro na linha {globalVars.contador_linha_global}: parênteses desbalanceados\n")
+        #     erro_linha = True
 
-        if not erro_linha :
-            executarExpressao(tokens_linha, resultados , memoria)
-            gerarAssembly(tokens_linha, linhas_assembly)
+        # if not erro_linha :
+        #     executarExpressao(tokens_linha, resultados , memoria)
+        #     gerarAssembly(tokens_linha, linhas_assembly)
 
         globalVars.contador_linha_global += 1
 
     exportarTokens(tokens_lista)
 
-    if erro_linha :
-        print ("\nERRO : O código fonte possui um erro, não será possível gerar código assembly")
-    else:
-        exibirResultados(resultados)
-        print("\nSUCESSO: Arquivo 'saida.s' gerado com sucesso!")
+    # if erro_linha :
+    #     print ("\nERRO : O código fonte possui um erro, não será possível gerar código assembly")
+    # else:
+    #     exibirResultados(resultados)
+    #     print("\nSUCESSO: Arquivo 'saida.s' gerado com sucesso!")

@@ -34,14 +34,14 @@ class NoArvore:
         return f"[{self.tipo}]"
 
 
-def gerarArvore(estrutura_derivacao):
-    if not estrutura_derivacao:
+def gerarArvore(derivacao):
+    if not derivacao:
         return None
 
     raiz = NoArvore('prog')
     pendentes = [raiz]
 
-    for passo in estrutura_derivacao:
+    for passo in derivacao:
         if not pendentes:
             break
 
