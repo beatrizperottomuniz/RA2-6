@@ -31,7 +31,7 @@ rpn_tail_stmt ::= num  op_bin
 rpn_tail_stmt ::= stmt op_stmt_stmt
 
 op_stmt_num  ::= KEYWORD_FOR | op_arit | op_rel
-op_stmt_stmt ::= KEYWORD_IF | KEYWORD_ELSE | op_arit | op_rel
+op_stmt_stmt ::= KEYWORD_IF | op_arit | op_rel
 op_bin  ::= op_arit | op_rel
 
 op_arit ::= PLUS | MINUS | MULT | DIV | INT_DIV | MOD | POW
@@ -44,7 +44,6 @@ KEYWORD_RES = RES
 KEYWORD_START = START
 KEYWORD_END = END
 KEYWORD_IF = IF
-KEYWORD_ELSE = ELSE
 KEYWORD_FOR = FOR
 
 ID = variáveis em letra maíuscula como X, CONTADOR
