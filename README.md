@@ -78,7 +78,6 @@ _Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado_
 | Comando | Função | Exemplo | Resultado esperado para o exemplo |
 |----------|----------|----------|----------|
 | (cond stmt IF) | Realizar uma comando (stmt) caso a condição (cond) seja satisfeita | ((5 5 ==) (1 2 +) IF) | Será executada o comando (1 2 +)
-| ((cond stmt1 IF) stmt2 ELSE) | Realizar uma comando (stmt1) caso a condição (cond) seja satisfeita e realizar outro comando (stmt2) caso não seja | (((10 5 ==) (1 2 +) IF) (1 5 +) ELSE) | Será executada o comando (1 5 +)
 
 **Laços de controle**
 | Comando | Função | Exemplo | Resultado esperado para o exemplo |
@@ -86,17 +85,7 @@ _Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado_
 | (N stmt FOR) | Repete o comando (stmt) N (número inteiro positivo maior que 1) vezes (passo 1, de 1 até N)| (3 ((1 (CONTADOR) +) CONTADOR) FOR) | Incrementa o contador  3 vezes, com este contendo o valor 8 ao final do loop FOR
 
 
-
-_(cond stmt stmt ... IF)((cond stmt stmt ... IF) stmt stmt ... ELSE)(N stmt stmt ... FOR)(cond stmt stmt ... WHILE)_
 ### Observações -> ATUALIZAR
 1. Foi requisitado que fosse testado com entradas com parênteses desbalanceados, este teste está incluído no arquivo de testes para processo completo, e não no de analisador léxico, pois a função responsável pela validação não está incluída neste módulo, já que essa verificação não faz parte do processo de análise léxica, que apenas gera os tokens.<br>
 2. Os arquivos de saída em assembly e de tokens mostrados no repositório são correspondentes ao `teste03.txt`.<br>
 3. Foi usado `/` para divisão real e `//`pra divisão inteira, como especificado na primeira fase, após professor confirmar que o enunciado teve erro de digitação.<br>
-
-***Validações que serão semânticas (não feitas pelo parser)**
-1. Condição do IF deve usar operador relacional — a gramática aceita qualquer stmt como condição, mas semanticamente só faz sentido (exp exp op_rel). Ex: ((1 2 +) (3 4 *) IF) passa no parser mas é inválido semanticamente. <br>
-2. Operando do RES deve ser NUM_INT positivo — (2.5 RES) ou (-1 RES) passam no parser mas são inválidos. <br>
-3. Operando do FOR deve ser NUM_INT positivo maior que 1 — (3.5 (stmt) FOR) ou (0 (stmt) FOR) passam no parser mas são inválidos. <br>
-4. Atribuição não pode ser usada como operando — ((5 CONTADOR) (1 2 +) IF) passa no parser, mas (5 CONTADOR) é uma atribuição e não retorna valor.<br>
-5. Expoente da potenciação deve ser NUM_INT positivo — (2 3.5 ^) e (2 -1 ^) passam no parser.<br>
-6. Operando do ELSE deve ser resultado de um IF — a gramática aceita qualquer stmt como primeiro operando do ELSE, mas semanticamente deve ser um IF.<br>
