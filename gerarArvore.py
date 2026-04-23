@@ -120,6 +120,8 @@ def salvarArvoreTXT(raiz, arquivo=arqv_txt):
     with open(arquivo, 'w', encoding='utf-8') as f:
         f.write(texto)
 
+# MD 
+
 def linhasMD(no, nivel, linhas):
     indent = "  " * nivel
     label = f"`{no.tipo}`"
@@ -220,33 +222,3 @@ def gerarArvorePNG(raiz, arquivo=arqv_png):
     plt.tight_layout()
     plt.savefig(nome_arquivo, dpi=150, bbox_inches='tight')
     plt.close()
-
-# debug
-
-if __name__ == '__main__':
-    from Token import Token, TokenType
-    from construirGramatica import construirGramatica
-    from parsear import parsear
-
-    resultado_gramatica = construirGramatica()
-    tabela = resultado_gramatica['tabela']
-
-    def t(tipo, linha=1, coluna=1):
-        return Token(tipo, linha, coluna, 0)
-
-    # (START) (3 4 +) (END)
-    tokens = [
-        t(TokenType.LPAREN),    t(TokenType.KEYWORD_START), t(TokenType.RPAREN),
-        t(TokenType.LPAREN, 2), t(TokenType.NUM_INT, 2),    t(TokenType.NUM_INT, 2),
-        t(TokenType.PLUS,   2), t(TokenType.RPAREN, 2),
-        t(TokenType.LPAREN),    t(TokenType.KEYWORD_END),   t(TokenType.RPAREN),
-        t(TokenType.EOF)
-    ]
-
-    resultado = parsear(tokens, tabela)
-    if resultado['erros']:
-        print("Erros:", resultado['erros'])
-    else:
-        raiz = gerarArvore(resultado['estrutura_derivacao'])
-        print(f"\nJSON salvo em '{arqv_json}'")
-        print(f"TXT salvo em  '{arqv_txt}'")

@@ -129,24 +129,24 @@ class Parser:
 
     # funcao de cada nt -------------------
 
-    def parse_prog(self):
+    def parseProg(self):
         #prog ::= LPAREN KEYWORD_START RPAREN list_stmts EOF
         if self.expandir('prog') is None:
             return
         self.match('LPAREN')
         self.match('KEYWORD_START')
         self.match('RPAREN')
-        self.parse_list_stmts()
+        self.parseListStmts()
         self.match('EOF')
 
-    def parse_list_stmts(self):
+    def parseListStmts(self):
         #list_stmts ::= LPAREN list_item
         if self.expandir('list_stmts') is None:
             return
         self.match('LPAREN')
-        self.parse_list_item()
+        self.parseListItem()
 
-    def parse_list_item(self):
+    def parseListItem(self):
         #list_item ::= KEYWORD_END RPAREN | rpn RPAREN list_stmts
         producao = self.expandir('list_item')
         if producao is None:
@@ -155,33 +155,33 @@ class Parser:
             self.match('KEYWORD_END')
             self.match('RPAREN')
         else:
-            self.parse_rpn()
+            self.parseRpn()
             self.match('RPAREN')
-            self.parse_list_stmts()
+            self.parseListStmts()
 
-    def parse_stmt(self):
+    def parseStmt(self):
         #stmt ::= LPAREN rpn RPAREN
         if self.expandir('stmt') is None:
             return
         self.match('LPAREN')
-        self.parse_rpn()
+        self.parseRpn()
         self.match('RPAREN')
 
-    def parse_rpn(self):
+    def parseRpn(self):
         #rpn ::= num rpn_tail_num| stmt rpn_tail_stmt| ID
         producao = self.expandir('rpn')
         if producao is None:
             return
         if producao[0] == 'num':
-            self.parse_num()
-            self.parse_rpn_tail_num()
+            self.parseNum()
+            self.parseRpnTailNum()
         elif producao[0] == 'stmt':
-            self.parse_stmt()
-            self.parse_rpn_tail_stmt()
+            self.parseStmt()
+            self.parseRpnTailStmt()
         else:
             self.match('ID')
 
-    def parse_num(self):
+    def parseNum(self):
         #num ::= NUM_INT | NUM_FLOAT | MINUS num_tipo
         producao = self.expandir('num')
         if producao is None:
@@ -192,16 +192,16 @@ class Parser:
             self.match('NUM_FLOAT')
         else:
             self.match('MINUS')
-            self.parse_num_tipo()
+            self.parseNumTipo()
 
-    def parse_num_tipo(self):
+    def parseNumTipo(self):
         #num_tipo ::= NUM_INT | NUM_FLOAT
         producao = self.expandir('num_tipo')
         if producao is None:
             return
         self.match(producao[0])
 
-    def parse_rpn_tail_num(self):
+    def parseRpnTailNum(self):
         #rpn_tail_num ::= KEYWORD_RES | ID | num op_bin | stmt op_stmt_num
         producao = self.expandir('rpn_tail_num')
         if producao is None:
@@ -211,13 +211,13 @@ class Parser:
         elif producao == ['ID']:
             self.match('ID')
         elif producao[0] == 'num':
-            self.parse_num()
-            self.parse_op_bin()
+            self.parseNum()
+            self.parseOpBin()
         else:
-            self.parse_stmt()
-            self.parse_op_stmt_num()
+            self.parseStmt()
+            self.parseOpStmtNum()
 
-    def parse_rpn_tail_stmt(self):
+    def parseRpnTailStmt(self):
         #rpn_tail_stmt ::= ID | num op_bin | stmt op_stmt_stmt
         producao = self.expandir('rpn_tail_stmt')
         if producao is None:
@@ -225,13 +225,13 @@ class Parser:
         if producao == ['ID']:
             self.match('ID')
         elif producao[0] == 'num':
-            self.parse_num()
-            self.parse_op_bin()
+            self.parseNum()
+            self.parseOpBin()
         else:
-            self.parse_stmt()
-            self.parse_op_stmt_stmt()
+            self.parseStmt()
+            self.parseOpStmtStmt()
 
-    def parse_op_stmt_num(self):
+    def parseOpStmtNum(self):
         #op_stmt_num ::= KEYWORD_FOR | op_arit | op_rel
         producao = self.expandir('op_stmt_num')
         if producao is None:
@@ -239,11 +239,11 @@ class Parser:
         if producao == ['KEYWORD_FOR']:
             self.match('KEYWORD_FOR')
         elif producao == ['op_arit']:
-            self.parse_op_arit()
+            self.parseOpArit()
         else:
-            self.parse_op_rel()
+            self.parseOpRel()
 
-    def parse_op_stmt_stmt(self):
+    def parseOpStmtStmt(self):
         #op_stmt_stmt ::= KEYWORD_IF | op_arit | op_rel
         producao = self.expandir('op_stmt_stmt')
         if producao is None:
@@ -251,28 +251,28 @@ class Parser:
         if producao == ['KEYWORD_IF']:
             self.match('KEYWORD_IF')
         elif producao == ['op_arit']:
-            self.parse_op_arit()
+            self.parseOpArit()
         else:
-            self.parse_op_rel()
+            self.parseOpRel()
 
-    def parse_op_bin(self):
+    def parseOpBin(self):
         # op_bin ::= op_arit | op_rel
         producao = self.expandir('op_bin')
         if producao is None:
             return
         if producao == ['op_arit']:
-            self.parse_op_arit()
+            self.parseOpArit()
         else:
-            self.parse_op_rel()
+            self.parseOpRel()
 
-    def parse_op_arit(self):
+    def parseOpArit(self):
         # op_arit ::= PLUS | MINUS | MULT | DIV | INT_DIV | MOD | POW
         producao = self.expandir('op_arit')
         if producao is None:
             return
         self.match(producao[0])
 
-    def parse_op_rel(self):
+    def parseOpRel(self):
         # op_rel ::= GT | LT | GTE | LTE | EQ | NEQ
         producao = self.expandir('op_rel')
         if producao is None:
@@ -284,7 +284,7 @@ class Parser:
 
 def parsear(_tokens_, tabela_ll1):
     parser = Parser(_tokens_, tabela_ll1)
-    parser.parse_prog()
+    parser.parseProg()
 
     token_rest = parser.buffer.atual()
     if token_rest and token_rest.tipo != 'EOF':

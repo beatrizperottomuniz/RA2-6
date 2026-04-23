@@ -53,8 +53,8 @@ NUM_FLOAT = números reais como 10.5
 PLUS = +
 MINUS = -
 MULT = *
-DIV = /
-INT_DIV = //
+DIV = |
+INT_DIV = /
 MOD = %
 POW = ^
 
