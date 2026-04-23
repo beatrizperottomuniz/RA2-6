@@ -5,7 +5,16 @@ Beatriz Perotto Muniz - @beatrizperottomuniz
 Nome do grupo no Canvas: RA2 6
 '''
 from Token import TokenType
-from geradorAssembly import resgatarLexema
+from globalVars import string_pool_global
+
+def resgatarLexema(token) -> str:
+    operadores = {TokenType.PLUS: "+", TokenType.MINUS: "-", TokenType.MULT: "*", 
+                  TokenType.DIV: "/", TokenType.INT_DIV: "//", TokenType.MOD: "%", TokenType.POW: "^"}
+    if token.tipo in operadores:
+        return operadores[token.tipo]
+    if token.simbolo_id is not None:
+        return string_pool_global.obterString(token.simbolo_id)
+    return "" 
 
 class _Interpretador:
     def __init__(self, tokens, resultados, memoria):
