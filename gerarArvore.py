@@ -4,12 +4,6 @@ Beatriz Perotto Muniz - @beatrizperottomuniz
 
 Nome do grupo no Canvas: RA2 6
 '''
-#   Simula o parser LL(1) usando a derivação já registrada.
-#   Mantém uma fila de nós pendentes (frente = próximo símbolo a processar).
-#   - expansao : remove o nó do topo, cria filhos e os insere na frente da fila
-#   - match    : remove o nó do topo e anota o token original
-#   - epsilon  : remove o nó do topo e adiciona filho 'ε'
-
 import json
 from globalVars import string_pool_global
 
@@ -163,12 +157,13 @@ def desenhar(no, posicoes, ax, BOX_W, BOX_H):
     y_plot = -y
 
     label = no.tipo
-    if no.token:
-        lexema = string_pool_global.obterString(no.token.simbolo_id)
-        if lexema and lexema != "desconhecido":
-            label += f'\n"{lexema}"'
-        label += f'\nL{no.token.linha}:{no.token.coluna}'
-
+    if no.token:                                                                                      
+        if no.token.tipo in ('NUM_INT', 'NUM_FLOAT', 'ID'):
+            lexema = string_pool_global.obterString(no.token.simbolo_id)
+            if lexema and lexema != "desconhecido":                                                     
+                label += f'\n"{lexema}"'
+        label += f'\nL{no.token.linha}:{no.token.coluna}'   
+        
     cor = "#f6dafb" if (not no.token and no.tipo != 'ε') else "#dfcdfa"
 
     caixa = mpatches.FancyBboxPatch(

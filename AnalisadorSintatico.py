@@ -18,10 +18,10 @@ from construirGramatica import construirGramatica
 from parsear import parsear
 from gerarArvore import gerarArvore
 from gerarAssembly import gerarAssembly
-from executaExpressao import executarExpressao
+# from executaExpressao import executarExpressao
 from exibeResultados import exibirResultados
 
-ARQUIVO_TOKENS = "saida_tokens.txt"
+ARQUIVO_TOKENS = "saida_tokens_2.txt"
 
 
 # funcs lexico
@@ -158,10 +158,10 @@ if __name__ == "__main__":
     print("Assembly gerado: saida2.s")
 
     # 7. interpretador — executa cada instrução e exibe resultados
-    instrucoes = _extrair_instrucoes(tokens)
-    resultados = []
-    memoria    = {}
-    for instrucao in instrucoes:
-        executarExpressao(instrucao, resultados, memoria)
+    # instrucoes = _extrair_instrucoes(tokens)
+    # resultados = []
+    # memoria    = {}
+    # for instrucao in instrucoes:
+    #     executarExpressao(instrucao, resultados, memoria)
 
-    exibirResultados(resultados)
+    # exibirResultados(resultados)
