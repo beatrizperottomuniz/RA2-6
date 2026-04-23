@@ -6,7 +6,7 @@
 **Aluna** : Beatriz Perotto Muniz [@beatrizperottomuniz](https://github.com/beatrizperottomuniz)<br>
 
 ### Descrição -> ATUALIZAR
-Este projeto implementa um analisador léxico capaz de identificar tokens e gerar código assembly correspondente.
+Este projeto implementa um analisador sintático capaz de identificar tokens, fazer análise sintática, e gerar código assembly correspondente.
 
 ### Requisitos 
 Python 3.x instalado <br>
@@ -56,7 +56,7 @@ python3 teste_analisadorLexico.py
 ```
 _Obs : acesse os arquivos para verificação de detalhes dos testes_ <br>
 
-### Novas estruturas -> ATUALIZAR
+### Novas estruturas -> ATUALIZAR PRA O QUE É COND
 **Para a presente documentação , consideraremos :** <br>
 `exp` = um número inteiro (ex: 20); um número real (ex: 20.1); uma leitura de memória (ex: (X)); um resultado anterior lido com RES (ex: (1 RES)); uma expressão aritmética aninhada. A única operacao definida na fase anterior que nao pode ser usada é a atribuicao de um valor a memoria (ex: (1 CONTADOR)) <br>
 `stmt` = qualquer instrução completa entre parênteses <br>
