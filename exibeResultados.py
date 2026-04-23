@@ -9,7 +9,7 @@ import math
 import struct
 
 def floatParaHex(valor):
-    bytes_ = struct.pack('>d', valor) 
+    bytes_ = struct.pack('>d', valor)
     return bytes_.hex()
 
 
@@ -23,7 +23,6 @@ def exibirResultados(resultados: list) -> None:
 def formatar(valor):
     if math.isclose(valor, round(valor)):
         return str(int(round(valor)))
-    
     return str(
         Decimal(str(valor)).quantize(
             Decimal("1.0"),
