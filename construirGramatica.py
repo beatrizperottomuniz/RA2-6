@@ -245,9 +245,9 @@ def construirGramatica(): # a que vai ser chamada na main nova
     return {
         'gramatica': gramatica_definida,
         #'nullable':  nullable,
-        'first':     first,
-        'follow':    follow,
-        'tabela':    tabela
+        'first':first,
+        'follow':follow,
+        'tabela':tabela
     }
 
 

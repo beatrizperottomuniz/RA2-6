@@ -1,0 +1,199 @@
+'''
+Integrantes do grupo:
+Beatriz Perotto Muniz - @beatrizperottomuniz
+
+Nome do grupo no Canvas: RA2 6
+'''
+from Token import TokenType
+from geradorAssembly import resgatarLexema
+
+class _Interpretador:
+    def __init__(self, tokens, resultados, memoria):
+        # filtra
+        self.tokens = [t for t in tokens
+                       if t.tipo not in (TokenType.EOF,
+                                        TokenType.KEYWORD_START,
+                                        TokenType.KEYWORD_END)]
+        self.pos = 0
+        self.resultados = resultados
+        self.memoria = memoria
+
+    def _atual(self):
+        return self.tokens[self.pos] if self.pos < len(self.tokens) else None
+
+    def _consumir(self):
+        t = self.tokens[self.pos]
+        self.pos += 1
+        return t
+
+    def _peek_op_apos_stmt(self):
+        pos = self.pos
+        if pos >= len(self.tokens) or self.tokens[pos].tipo != TokenType.LPAREN:
+            return None
+        pos += 1
+        depth = 1
+        while pos < len(self.tokens) and depth > 0:
+            if self.tokens[pos].tipo == TokenType.LPAREN:
+                depth += 1
+            elif self.tokens[pos].tipo == TokenType.RPAREN:
+                depth -= 1
+            pos += 1
+        return self.tokens[pos].tipo if pos < len(self.tokens) else None
+
+    def _pular_stmt(self):
+        self.pos += 1   # LPAREN
+        depth = 1
+        while self.pos < len(self.tokens) and depth > 0:
+            if self.tokens[self.pos].tipo == TokenType.LPAREN:
+                depth += 1
+            elif self.tokens[self.pos].tipo == TokenType.RPAREN:
+                depth -= 1
+            self.pos += 1
+
+
+    def avaliar_stmt(self):
+        self._consumir()            # LPAREN
+        valor = self.avaliar_rpn()
+        self._consumir()            # RPAREN
+        return valor
+
+    def avaliar_num(self):
+        t = self._atual()
+        if t.tipo == TokenType.MINUS:
+            self._consumir()
+            return -float(resgatarLexema(self._consumir()))
+        return float(resgatarLexema(self._consumir()))
+
+    def avaliar_rpn(self):
+        t = self._atual()
+
+        if t.tipo == TokenType.LPAREN:
+            primeiro = self.avaliar_stmt()
+            return self.avaliar_rpn_tail_stmt(primeiro)
+
+        if t.tipo in (TokenType.NUM_INT, TokenType.NUM_FLOAT, TokenType.MINUS):
+            num = self.avaliar_num()
+            return self.avaliar_rpn_tail_num(num)
+
+        if t.tipo == TokenType.ID:
+            nome = resgatarLexema(self._consumir())
+            return self.memoria.get(nome, 0.0)
+
+        return 0.0
+
+    def avaliar_rpn_tail_num(self, primeiro):
+        t = self._atual()
+        if t is None or t.tipo == TokenType.RPAREN:
+            return primeiro
+
+        # (N RES)
+        if t.tipo == TokenType.KEYWORD_RES:
+            self._consumir()
+            n = int(primeiro)
+            i = len(self.resultados) - n
+            return self.resultados[i] if 0 <= i < len(self.resultados) else 0.0
+
+        # (N VAR) — atrib
+        if t.tipo == TokenType.ID:
+            nome = resgatarLexema(self._consumir())
+            self.memoria[nome] = primeiro
+            return primeiro
+
+        # (N num op) — op bin com terminal
+        if t.tipo in (TokenType.NUM_INT, TokenType.NUM_FLOAT, TokenType.MINUS):
+            segundo = self.avaliar_num()
+            op = self._consumir()
+            return self._aplicar_op(primeiro, segundo, op.tipo)
+
+        # FOR ou op com sub expr
+        if t.tipo == TokenType.LPAREN:
+            op_tipo = self._peek_op_apos_stmt()
+
+            if op_tipo == TokenType.KEYWORD_FOR:
+                n      = int(primeiro)
+                inicio = self.pos
+                self._pular_stmt()
+                corpo  = self.tokens[inicio:self.pos]
+                self._consumir()                        # FOR
+                resultado = 0.0
+                for _ in range(n):
+                    sub = _Interpretador(corpo, self.resultados, self.memoria)
+                    resultado = sub.avaliar_stmt()
+                return resultado
+
+            segundo = self.avaliar_stmt()
+            op = self._consumir()
+            return self._aplicar_op(primeiro, segundo, op.tipo)
+
+        return primeiro
+
+    def avaliar_rpn_tail_stmt(self, primeiro):
+        t = self._atual()
+        if t is None or t.tipo == TokenType.RPAREN:
+            return primeiro
+
+        # ((stmt) VAR) — atrib
+        if t.tipo == TokenType.ID:
+            nome = resgatarLexema(self._consumir())
+            self.memoria[nome] = primeiro
+            return primeiro
+
+        # ((stmt) num op) — operação bin com literal
+        if t.tipo in (TokenType.NUM_INT, TokenType.NUM_FLOAT, TokenType.MINUS):
+            segundo = self.avaliar_num()
+            op = self._consumir()
+            return self._aplicar_op(primeiro, segundo, op.tipo)
+
+        # ((stmt) (stmt) op_stmt_stmt) — IF ou op
+        if t.tipo == TokenType.LPAREN:
+            op_tipo = self._peek_op_apos_stmt()
+
+            # (cond corpo IF)
+            if op_tipo == TokenType.KEYWORD_IF:
+                condicao = primeiro
+                if condicao != 0.0:
+                    corpo = self.avaliar_stmt()
+                    self._consumir()                    # IF
+                    return corpo
+                else:
+                    self._pular_stmt()
+                    self._consumir()                    # IF
+                    return 0.0
+
+            segundo = self.avaliar_stmt()
+            op = self._consumir()
+            return self._aplicar_op(primeiro, segundo, op.tipo)
+
+        return primeiro
+
+    # ops
+
+    def _aplicar_op(self, esq, dir, tipo):
+        if tipo == TokenType.PLUS:    return esq + dir
+        if tipo == TokenType.MINUS:   return esq - dir
+        if tipo == TokenType.MULT:    return esq * dir
+        if tipo == TokenType.DIV:     return esq / dir
+        if tipo == TokenType.INT_DIV:
+            return float(int(esq / dir))
+        if tipo == TokenType.MOD:
+            return esq - float(int(esq / dir)) * dir
+        if tipo == TokenType.POW:
+            acc = 1.0
+            for _ in range(int(dir)):
+                acc *= esq
+            return acc
+        if tipo == TokenType.EQ:  return 1.0 if esq == dir else 0.0
+        if tipo == TokenType.NEQ: return 1.0 if esq != dir else 0.0
+        if tipo == TokenType.GT:  return 1.0 if esq >  dir else 0.0
+        if tipo == TokenType.LT:  return 1.0 if esq <  dir else 0.0
+        if tipo == TokenType.GTE: return 1.0 if esq >= dir else 0.0
+        if tipo == TokenType.LTE: return 1.0 if esq <= dir else 0.0
+        return 0.0
+
+
+# func principal
+
+def executarExpressao(tokens: list, resultados: list, memoria: dict) -> None:
+    interp    = _Interpretador(tokens, resultados, memoria)
+    resultado = interp.avaliar_stmt()
+    resultados.append(resultado)
