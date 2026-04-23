@@ -28,3 +28,23 @@ def lerTokens(arquivo ="saida_tokens.txt") -> list:
         lista_tokens.append(token)
 
     return lista_tokens
+
+
+# # validação básica de estrutura                                                               
+# if "string_pool" not in dados or "tokens" not in dados:
+#     print(f"Formato inválido: campos 'string_pool' ou 'tokens' ausentes.")                      
+#     return []                                                                                   
+                                                                                                
+# tipos_validos = {t for t in dir(TokenType) if not t.startswith('_')}                            
+# for i, t in enumerate(dados["tokens"]):                                                       
+#     if not all(k in t for k in ("tipo", "linha", "coluna", "simbolo_id")):                      
+#         print(f"Token {i} com campos faltando: {t}")                                            
+#         return []                                                                               
+#     if t["tipo"] not in tipos_validos:                                                          
+#         print(f"Tipo de token desconhecido na posição {i}: '{t['tipo']}'")                      
+#         return []                                                                               
+
+# tipos = [t["tipo"] for t in dados["tokens"]]                                                    
+# if "EOF" not in tipos:                                                                        
+#     print("Arquivo de tokens sem EOF — pode estar corrompido.")                                 
+#     return [] 

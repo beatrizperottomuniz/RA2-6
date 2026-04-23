@@ -39,7 +39,7 @@ Dependendo da configuração do sistema operacional, o comando `python` pode est
 #### Rodando com programas de teste fornecidos
 1. Após clonar o diretório, rode o comando
 ```
-python3 main.py teste01.txt
+python3 AnalisadorSintatico.py teste01.txt
 ```
 _Obs : também estão disponiveis os arquivos teste02.txt e teste03.txt_ <br>
 
@@ -61,7 +61,6 @@ _Obs : acesse os arquivos para verificação de detalhes dos testes_ <br>
 `exp` = um número inteiro (ex: 20); um número real (ex: 20.1); uma leitura de memória (ex: (X)); um resultado anterior lido com RES (ex: (1 RES)); uma expressão aritmética aninhada. A única operacao definida na fase anterior que nao pode ser usada é a atribuicao de um valor a memoria (ex: (1 CONTADOR)) <br>
 `stmt` = qualquer instrução completa entre parênteses <br>
 `cond` = expressão que retorna verdadeiro ou falso: (`exp exp operador_relacional`) <br>
-`operador_relacional` = `==`, `!=`, `>`, `<`, `>=`, `<=` <br>
 
 **Expressões de condição (cond)**
 _Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado_
@@ -82,10 +81,11 @@ _Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado_
 **Laços de controle**
 | Comando | Função | Exemplo | Resultado esperado para o exemplo |
 |----------|----------|----------|----------|
-| (N stmt FOR) | Repete o comando (stmt) N (número inteiro positivo maior que 1) vezes (passo 1, de 1 até N)| (3 ((1 (CONTADOR) +) CONTADOR) FOR) | Incrementa o contador  3 vezes, com este contendo o valor 8 ao final do loop FOR
+| (N stmt FOR) | Repete o comando (stmt) N (número inteiro positivo) vezes | (3 ((1 (CONTADOR) +) CONTADOR) FOR) | Incrementa o contador  3 vezes, com este contendo o valor 8 ao final do loop FOR
+
 
 
 ### Observações -> ATUALIZAR
-1. Foi requisitado que fosse testado com entradas com parênteses desbalanceados, este teste está incluído no arquivo de testes para processo completo, e não no de analisador léxico, pois a função responsável pela validação não está incluída neste módulo, já que essa verificação não faz parte do processo de análise léxica, que apenas gera os tokens.<br>
-2. Os arquivos de saída em assembly e de tokens mostrados no repositório são correspondentes ao `teste03.txt`.<br>
-3. Foi usado `/` para divisão real e `//`pra divisão inteira, como especificado na primeira fase, após professor confirmar que o enunciado teve erro de digitação.<br>
+1. Os arquivos de saída em assembly e de tokens mostrados no repositório são correspondentes ao `teste03.txt`.<br>
+2. Foi usado `/` para divisão real e `//`pra divisão inteira, como especificado na primeira fase, após professor confirmar que o enunciado teve erro de digitação.<br>-> ATUALIZAR
+3. Os tokens que estão aqui são os da fase passada. No entanto, não havia (START) e (END) naquele momento. Assim, se rodarmos o analisador sintático com esta saída receberemos um aviso de erro. Para ver a mesma saída, use o arquivo `teste_03.txt`, que contém essas keywords. Ele não possui comandos de laço e controle para ser consistente com o que foi enviado na fase 1.<br>
