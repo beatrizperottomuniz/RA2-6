@@ -244,14 +244,12 @@ class Parser:
             self.parse_op_rel()
 
     def parse_op_stmt_stmt(self):
-        #op_stmt_stmt ::= KEYWORD_IF | KEYWORD_ELSE | op_arit | op_rel
+        #op_stmt_stmt ::= KEYWORD_IF | op_arit | op_rel
         producao = self.expandir('op_stmt_stmt')
         if producao is None:
             return
         if producao == ['KEYWORD_IF']:
             self.match('KEYWORD_IF')
-        elif producao == ['KEYWORD_ELSE']:
-            self.match('KEYWORD_ELSE')
         elif producao == ['op_arit']:
             self.parse_op_arit()
         else:

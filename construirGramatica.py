@@ -52,7 +52,6 @@ gramatica_definida = {
     ],
     'op_stmt_stmt': [
         ['KEYWORD_IF'],
-        ['KEYWORD_ELSE'],
         ['op_arit'],
         ['op_rel']
     ],

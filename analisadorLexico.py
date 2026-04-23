@@ -25,7 +25,7 @@ class Lexer:
             "START": TokenType.KEYWORD_START,
             "END": TokenType.KEYWORD_END,
             "IF": TokenType.KEYWORD_IF,
-            "ELSE": TokenType.KEYWORD_ELSE,
+            #"ELSE": TokenType.KEYWORD_ELSE,
             # "THEN": TokenType.KEYWORD_THEN,
             # "WHILE": TokenType.KEYWORD_WHILE,
             "FOR": TokenType.KEYWORD_FOR
