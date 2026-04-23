@@ -30,12 +30,13 @@ class Lexer:
             # "WHILE": TokenType.KEYWORD_WHILE,
             "FOR": TokenType.KEYWORD_FOR
         }
-        self.operadores = "+-*/%^><!="
+        self.operadores = "+-*/%^><=!|"
         self.simbolos = {
             '+': TokenType.PLUS,
             '-': TokenType.MINUS,
             '*': TokenType.MULT,
-            '/': TokenType.DIV,
+            '|': TokenType.DIV,
+            '/': TokenType.INT_DIV,
             '%': TokenType.MOD,
             '^': TokenType.POW,
             '>': TokenType.GT,
@@ -128,12 +129,6 @@ class Lexer:
 
     def estadoOperador(self):
         char = self.buffer[0]
-        if char == '/' and self.peek() == '/':
-            self.buffer.append(self.peek())
-            self.advance()
-            self.emit(TokenType.INT_DIV)
-            return self.estadoInicio
-        
         # adicionado na segunda fase pros ops logicos
         if char == '>' and self.peek() == '=':
             self.buffer.append(self.peek())
