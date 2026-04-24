@@ -41,7 +41,7 @@ Dependendo da configuração do sistema operacional, o comando `python` pode est
 ```
 python3 AnalisadorSintatico.py teste01.txt
 ```
-_Obs : também estão disponiveis os arquivos teste02.txt, teste03.txt e teste04.txt_ <br>
+*Também estão disponiveis os arquivos teste02.txt, teste03.txt e teste_erros_sintaticos.txt* <br>
 
 2. O arquivo `saida.s` será gerado automaticamente, com código assembly.<br>
 3. Copie seu conteúdo e cole no simulador Cpulator-ARMv7 DEC1-SOC(v16.1). <br>
