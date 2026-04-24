@@ -1,5 +1,5 @@
 '''
-Integrantes do grupo:
+Integrantes do grupo (ordem alfabética):
 Beatriz Perotto Muniz - @beatrizperottomuniz
 
 Nome do grupo no Canvas: RA2 6
