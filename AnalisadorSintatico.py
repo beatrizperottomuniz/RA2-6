@@ -27,7 +27,7 @@ arquivo_tokens = "saida_tokens_2.txt"
 # funcs lexico
 
 
-def _exportar_tokens(lista_tokens, caminho=arquivo_tokens):
+def exportarTokens(lista_tokens, caminho=arquivo_tokens):
     tokens_serializados = []
     for token in lista_tokens:
         tokens_serializados.append({
@@ -48,8 +48,7 @@ def _exportar_tokens(lista_tokens, caminho=arquivo_tokens):
         print(f"Erro ao salvar tokens: {e}")
 
 
-def _rodar_lexico(caminho_fonte):
-    #Executa o analisador léxico no arquivo fonte e salva saida_tokens.txt ret True se não houve erros
+def rodarLexico(caminho_fonte):
     linhas = []
     lerArquivo(caminho_fonte, linhas)
     globalVars.total_linhas_global = len(linhas)
@@ -68,15 +67,15 @@ def _rodar_lexico(caminho_fonte):
 
         globalVars.contador_linha_global += 1
 
-    _exportar_tokens(tokens_lista)
+    exportarTokens(tokens_lista)
 
     return not erro
 
 
 # divide tokens por instrucao
 
-def _extrair_instrucoes(tokens):
-#   Divide a lista plana de tokens em grupos por instrução, ignorando (START), (END) e EOF.
+def extrairInstrucoes(tokens):
+#   divide a lista plana de tokens em grupos por instrução, ignorando (START), (END) e EOF
     instrucoes = []
     i = 0
     while i < len(tokens):
@@ -86,12 +85,10 @@ def _extrair_instrucoes(tokens):
         if t.tipo == TokenType.LPAREN:
             proximo = tokens[i + 1].tipo if i + 1 < len(tokens) else None
             if proximo in (TokenType.KEYWORD_START, TokenType.KEYWORD_END):
-                # pula o grupo inteiro (START) ou (END)
                 while i < len(tokens) and tokens[i].tipo != TokenType.RPAREN:
                     i += 1
                 i += 1
                 continue
-            # coleta grupo completo rastreando profundidade de parênteses
             grupo = []
             depth = 0
             while i < len(tokens):
@@ -119,18 +116,15 @@ if __name__ == "__main__":
 
     caminho = sys.argv[1]
 
-    erro_lexico = not _rodar_lexico(caminho)
+    erro_lexico = not rodarLexico(caminho)
     if erro_lexico:
         print("\nAVISO: erros léxicos encontrados — continuando análise sintática.")
 
-    # 2. ler tokens
     tokens = lerTokens(arquivo_tokens)
 
-    # 3. gramática e tabela LL(1)
     resultado_gramatica = construirGramatica()
     tabela = resultado_gramatica['tabela']
 
-    # 4. parsing
     resultado_parser = parsear(tokens, tabela)
 
     if erro_lexico or resultado_parser['erros']:
@@ -144,16 +138,13 @@ if __name__ == "__main__":
 
     print("Análise sintática: OK")
 
-    # 5. árvore sintática
     arvore = gerarArvore(resultado_parser['estrutura_derivacao'])
     print("Árvore gerada: saida_arvore_json.txt / saida_arvore.txt / saida_arvore.png / saida_arvore.md")
 
-    # 6. geração de assembly
     gerarAssembly(arvore)
     print("Assembly gerado: saida2.s")
 
-    # 7. interpretador — executa cada instrução e exibe resultados
-    instrucoes = _extrair_instrucoes(tokens)
+    instrucoes = extrairInstrucoes(tokens)
     resultados = []
     memoria    = {}
     for instrucao in instrucoes:
