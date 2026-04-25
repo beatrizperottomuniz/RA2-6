@@ -30,7 +30,7 @@ python3 AnalisadorSintatico.py nome_do_seu_arquivo.txt
 ```
 Onde:
 * `AnalisadorSintatico.py` é o arquivo principal do projeto
-* `nome_do_seu_arquivo.txt` contém as expressões a serem analisadas. O arquivo deverá estar em formato txt, contendo apenas operações suportadas. Para criar seu próprio arquivo, utilize `teste01.txt` como exemplo.<br>
+* `nome_do_seu_arquivo.txt` contém as expressões a serem analisadas. O arquivo deverá estar em formato txt, contendo apenas operações suportadas. Para criar seu próprio arquivo, utilize `teste01.txt` como exemplo (lembrando que é necessário o uso de (START) e (END) para demarcar início e fim, como pode ser visto no arquivo).<br>
 
 _Observação:_
 Dependendo da configuração do sistema operacional, o comando `python` pode estar vinculado ao Python 3. Nesse caso, o comando `python3` pode ser substituído por `python`. <br>
