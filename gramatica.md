@@ -7,28 +7,29 @@ prog ::= LPAREN KEYWORD_START RPAREN list_stmts EOF
 list_stmts ::= LPAREN list_item
 
 list_item  ::= KEYWORD_END RPAREN
-list_item  ::= rpn RPAREN list_stmts
+            | rpn RPAREN list_stmts
 
 stmt ::= LPAREN rpn RPAREN
 
 rpn ::= num   rpn_tail_num
-rpn ::= stmt  rpn_tail_stmt
-rpn ::= ID
+        | stmt  rpn_tail_stmt
+        | ID
 
 num      ::= NUM_INT
-num      ::= NUM_FLOAT
-num      ::= MINUS num_tipo
+            | NUM_FLOAT
+            | MINUS num_tipo
+
 num_tipo ::= NUM_INT
-num_tipo ::= NUM_FLOAT
+            | NUM_FLOAT
 
 rpn_tail_num  ::= KEYWORD_RES
-rpn_tail_num  ::= ID
-rpn_tail_num  ::= num  op_bin
-rpn_tail_num  ::= stmt op_stmt_num
+                | ID
+                | num  op_bin
+                | stmt op_stmt_num
 
 rpn_tail_stmt ::= ID
-rpn_tail_stmt ::= num  op_bin
-rpn_tail_stmt ::= stmt op_stmt_stmt
+                | num  op_bin
+                | stmt op_stmt_stmt
 
 op_stmt_num  ::= KEYWORD_FOR | op_arit | op_rel
 op_stmt_stmt ::= KEYWORD_IF | op_arit | op_rel
