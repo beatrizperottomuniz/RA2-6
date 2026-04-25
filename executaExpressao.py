@@ -16,7 +16,7 @@ def resgatarLexema(token) -> str:
         return string_pool_global.obterString(token.simbolo_id)
     return "" 
 
-class _Interpretador:
+class Interpretador:
     def __init__(self, tokens, resultados, memoria):
         # filtra
         self.tokens = [t for t in tokens
@@ -27,15 +27,15 @@ class _Interpretador:
         self.resultados = resultados
         self.memoria = memoria
 
-    def _atual(self):
+    def atual(self):
         return self.tokens[self.pos] if self.pos < len(self.tokens) else None
 
-    def _consumir(self):
+    def consumir(self):
         t = self.tokens[self.pos]
         self.pos += 1
         return t
 
-    def _peek_op_apos_stmt(self):
+    def peekOpAposStmt(self):
         pos = self.pos
         if pos >= len(self.tokens) or self.tokens[pos].tipo != TokenType.LPAREN:
             return None
@@ -49,7 +49,7 @@ class _Interpretador:
             pos += 1
         return self.tokens[pos].tipo if pos < len(self.tokens) else None
 
-    def _pular_stmt(self):
+    def pularStmt(self):
         self.pos += 1   # LPAREN
         depth = 1
         while self.pos < len(self.tokens) and depth > 0:
@@ -60,124 +60,124 @@ class _Interpretador:
             self.pos += 1
 
 
-    def avaliar_stmt(self):
-        self._consumir()            # LPAREN
-        valor = self.avaliar_rpn()
-        self._consumir()            # RPAREN
+    def avaliarStmt(self):
+        self.consumir()            # LPAREN
+        valor = self.avaliarRpn()
+        self.consumir()            # RPAREN
         return valor
 
-    def avaliar_num(self):
-        t = self._atual()
+    def avaliarNum(self):
+        t = self.atual()
         if t.tipo == TokenType.MINUS:
-            self._consumir()
-            return -float(resgatarLexema(self._consumir()))
-        return float(resgatarLexema(self._consumir()))
+            self.consumir()
+            return -float(resgatarLexema(self.consumir()))
+        return float(resgatarLexema(self.consumir()))
 
-    def avaliar_rpn(self):
-        t = self._atual()
+    def avaliarRpn(self):
+        t = self.atual()
 
         if t.tipo == TokenType.LPAREN:
-            primeiro = self.avaliar_stmt()
-            return self.avaliar_rpn_tail_stmt(primeiro)
+            primeiro = self.avaliarStmt()
+            return self.avaliarRpnTailStmt(primeiro)
 
         if t.tipo in (TokenType.NUM_INT, TokenType.NUM_FLOAT, TokenType.MINUS):
-            num = self.avaliar_num()
-            return self.avaliar_rpn_tail_num(num)
+            num = self.avaliarNum()
+            return self.avaliarRpnTailNum(num)
 
         if t.tipo == TokenType.ID:
-            nome = resgatarLexema(self._consumir())
+            nome = resgatarLexema(self.consumir())
             return self.memoria.get(nome, 0.0)
 
         return 0.0
 
-    def avaliar_rpn_tail_num(self, primeiro):
-        t = self._atual()
+    def avaliarRpnTailNum(self, primeiro):
+        t = self.atual()
         if t is None or t.tipo == TokenType.RPAREN:
             return primeiro
 
         # (N RES)
         if t.tipo == TokenType.KEYWORD_RES:
-            self._consumir()
+            self.consumir()
             n = int(primeiro)
             i = len(self.resultados) - n
             return self.resultados[i] if 0 <= i < len(self.resultados) else 0.0
 
         # (N VAR) — atrib
         if t.tipo == TokenType.ID:
-            nome = resgatarLexema(self._consumir())
+            nome = resgatarLexema(self.consumir())
             self.memoria[nome] = primeiro
             return primeiro
 
         # (N num op) — op bin com terminal
         if t.tipo in (TokenType.NUM_INT, TokenType.NUM_FLOAT, TokenType.MINUS):
-            segundo = self.avaliar_num()
-            op = self._consumir()
-            return self._aplicar_op(primeiro, segundo, op.tipo)
+            segundo = self.avaliarNum()
+            op = self.consumir()
+            return self.aplicarOp(primeiro, segundo, op.tipo)
 
         # FOR ou op com sub expr
         if t.tipo == TokenType.LPAREN:
-            op_tipo = self._peek_op_apos_stmt()
+            op_tipo = self.peekOpAposStmt()
 
             if op_tipo == TokenType.KEYWORD_FOR:
                 n      = int(primeiro)
                 inicio = self.pos
-                self._pular_stmt()
+                self.pularStmt()
                 corpo  = self.tokens[inicio:self.pos]
-                self._consumir()                        # FOR
+                self.consumir()                        # FOR
                 resultado = 0.0
                 for _ in range(n):
-                    sub = _Interpretador(corpo, self.resultados, self.memoria)
-                    resultado = sub.avaliar_stmt()
+                    sub = Interpretador(corpo, self.resultados, self.memoria)
+                    resultado = sub.avaliarStmt()
                 return resultado
 
-            segundo = self.avaliar_stmt()
-            op = self._consumir()
-            return self._aplicar_op(primeiro, segundo, op.tipo)
+            segundo = self.avaliarStmt()
+            op = self.consumir()
+            return self.aplicarOp(primeiro, segundo, op.tipo)
 
         return primeiro
 
-    def avaliar_rpn_tail_stmt(self, primeiro):
-        t = self._atual()
+    def avaliarRpnTailStmt(self, primeiro):
+        t = self.atual()
         if t is None or t.tipo == TokenType.RPAREN:
             return primeiro
 
         # ((stmt) VAR) — atrib
         if t.tipo == TokenType.ID:
-            nome = resgatarLexema(self._consumir())
+            nome = resgatarLexema(self.consumir())
             self.memoria[nome] = primeiro
             return primeiro
 
         # ((stmt) num op) — operação bin com literal
         if t.tipo in (TokenType.NUM_INT, TokenType.NUM_FLOAT, TokenType.MINUS):
-            segundo = self.avaliar_num()
-            op = self._consumir()
-            return self._aplicar_op(primeiro, segundo, op.tipo)
+            segundo = self.avaliarNum()
+            op = self.consumir()
+            return self.aplicarOp(primeiro, segundo, op.tipo)
 
         # ((stmt) (stmt) op_stmt_stmt) — IF ou op
         if t.tipo == TokenType.LPAREN:
-            op_tipo = self._peek_op_apos_stmt()
+            op_tipo = self.peekOpAposStmt()
 
             # (cond corpo IF)
             if op_tipo == TokenType.KEYWORD_IF:
                 condicao = primeiro
                 if condicao != 0.0:
-                    corpo = self.avaliar_stmt()
-                    self._consumir()                    # IF
+                    corpo = self.avaliarStmt()
+                    self.consumir()                    # IF
                     return corpo
                 else:
-                    self._pular_stmt()
-                    self._consumir()                    # IF
+                    self.pularStmt()
+                    self.consumir()                    # IF
                     return 0.0
 
-            segundo = self.avaliar_stmt()
-            op = self._consumir()
-            return self._aplicar_op(primeiro, segundo, op.tipo)
+            segundo = self.avaliarStmt()
+            op = self.consumir()
+            return self.aplicarOp(primeiro, segundo, op.tipo)
 
         return primeiro
 
     # ops
 
-    def _aplicar_op(self, esq, dir, tipo):
+    def aplicarOp(self, esq, dir, tipo):
         if tipo == TokenType.PLUS:    return esq + dir
         if tipo == TokenType.MINUS:   return esq - dir
         if tipo == TokenType.MULT:    return esq * dir
@@ -203,6 +203,6 @@ class _Interpretador:
 # func principal
 
 def executarExpressao(tokens: list, resultados: list, memoria: dict) -> None:
-    interp    = _Interpretador(tokens, resultados, memoria)
-    resultado = interp.avaliar_stmt()
+    interp    = Interpretador(tokens, resultados, memoria)
+    resultado = interp.avaliarStmt()
     resultados.append(resultado)
