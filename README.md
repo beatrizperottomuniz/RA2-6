@@ -23,7 +23,7 @@ pip install matplotlib
 Este projeto foi desenvolvido em Python, uma linguagem interpretada, portanto não há etapa de compilação explícita. <br>
 A execução é feita diretamente pelo interpretador Python.<br>
 
-### Como executar -> ATUALIZAR
+### Como executar
 Após clonar o diretório, rode o comando <br>
 ```
 python3 AnalisadorSintatico.py nome_do_seu_arquivo.txt
@@ -41,20 +41,34 @@ Dependendo da configuração do sistema operacional, o comando `python` pode est
 ```
 python3 AnalisadorSintatico.py teste01.txt
 ```
-*Também estão disponiveis os arquivos teste02.txt, teste03.txt e teste_erros_sintaticos.txt* <br>
+*Também estão disponiveis os arquivos teste02.txt, teste03.txt, teste01_erros.txt, teste02_erros.txt, teste03_erros.txt* <br>
 
-2. O arquivo `saida.s` será gerado automaticamente, com código assembly.<br>
+2. O arquivo `saida2.s` será gerado automaticamente, com código assembly.<br>
 3. Copie seu conteúdo e cole no simulador Cpulator-ARMv7 DEC1-SOC(v16.1). <br>
 4. Clique em "Compile and Load", espere a interface exibir a mensagem de "Compile succeeded" em Messages. <br>
 5. OPCIONAL : Em "Settings" mude "Format" para "Decimal signed" se quiser ver as operações realizadas em tempo real.<br>
 6. OPCIONAL : Use "Step Over" para ver as instruções sendo executadas passo a passo (visualize em d0 os resultados das operações).<br>
 7. Clique em "Continue" e verifique na JTAG UART os resultados em hexadecimal. Verifique se os resultados estão corretos visualizando (no terminal em que o comando do passo 1 foi rodado) os valores esperados para as operações. <br>
 
-#### Rodando funções de testes -> ATUALIZAR
+#### Rodando funções de testes 
 ```
-python3 teste_analisadorLexico.py
+python3 teste_analisadorSintatico.py
+python3 teste_end_to_end.py
+python3 teste_parsear.py
 ```
 _Obs : acesse os arquivos para verificação de detalhes dos testes_ <br>
+
+### Como depurar 
+#### Verificar tokens gerados pelo léxico                                                              
+Após executar, o arquivo `saida_tokens_2.txt` contém todos os tokens reconhecidos em formato JSON. Abra-o para verificar se o léxico está tokenizando corretamente.
+
+#### Verificar a árvore sintática
+Após execução sem erros, os arquivos gerados (entre outros) são:
+- `saida_arvore.txt` — árvore em formato texto
+- `saida_arvore_json.txt` — árvore em formato JSON
+
+#### Verificar erros
+Erros léxicos e sintáticos são impressos diretamente no terminal com número de linha e coluna.
 
 ### Novas estruturas
 **Para a presente documentação , consideraremos :** <br>
@@ -82,6 +96,7 @@ _Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado; A e B podem 
 | (N stmt FOR) | Repete o comando (stmt) N (número inteiro positivo) vezes | (3 ((1 (CONTADOR) +) CONTADOR) FOR) | Incrementa o contador  3 vezes, com este contendo o valor 8 ao final do loop FOR
 
 
-### Observações -> ATUALIZAR
+### Observações
 1. Os arquivos de saída em assembly, tokens e árvore sintática mostrados no repositório são correspondentes ao `teste03.txt`.<br>
-2. Foi usado `|` para divisão real e `/`pra divisão inteira, como especificado no documento da segunda fase.<br>-> ATUALIZAR
+2. Foi usado `|` para divisão real e `/`pra divisão inteira, como especificado no documento da segunda fase.<br>
+3. Em caso de erro léxico, o analisador exibe um aviso mas continua a análise sintática. O assembly só é gerado se não houver nenhum erro.
