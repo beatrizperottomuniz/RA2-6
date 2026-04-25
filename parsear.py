@@ -1,5 +1,5 @@
 '''
-Integrantes do grupo:
+Integrantes do grupo (ordem alfabética):
 Beatriz Perotto Muniz - @beatrizperottomuniz
 
 Nome do grupo no Canvas: RA2 6
@@ -72,12 +72,13 @@ class Parser:
         linha  = token.linha  if token else '?'
         coluna = token.coluna if token else '?'
         lexema = ""
-        if token : 
+        if token and token.tipo in ('NUM_INT', 'NUM_FLOAT', 'ID'): 
             lexema = string_pool_global.obterString(token.simbolo_id)
 
         self.erro(
             f"Erro sintático (linha {linha}, col {coluna}): "
-            f"esperado '{tipo_esperado}', encontrado '{tipo}' {lexema}"
+            f"esperado '{tipo_esperado}', encontrado '{tipo}'"
+            + (f' ("{lexema}")' if lexema else "")
         )
         self.sincronizar()
         return None
@@ -100,13 +101,20 @@ class Parser:
             coluna = token.coluna if token else '?'
             esperados = sorted(self.tabela[nao_terminal].keys()) # tudo q podia pra aquele n terminal
             lexema = ""
-            if token : 
+            if token and token.tipo in ('NUM_INT', 'NUM_FLOAT', 'ID'): 
                 lexema = string_pool_global.obterString(token.simbolo_id)
-            self.erro(
-                f"Erro sintático (linha {linha}, col {coluna}): "
-                f"em '{nao_terminal}', token '{tipo}' inesperado{lexema}. "
-                f"Esperados: {esperados}"
-            )
+            if tipo == 'UNKNOWN':
+                self.erro(
+                    f"Erro léxico (linha {linha}, col {coluna}): "
+                    f"token inválido encontrado durante análise sintática"
+                )
+            else:
+                self.erro(
+                    f"Erro sintático (linha {linha}, col {coluna}): "
+                    f"em '{nao_terminal}', token '{tipo}' inesperado"
+                    + (f' ("{lexema}")' if lexema else "")
+                    + f". Esperados: {', '.join(esperados)}"
+                )
             self.sincronizar()
             return None
 
@@ -293,12 +301,12 @@ def parsear(_tokens_, tabela_ll1):
             f"tokens inesperados após fim do programa ('{token_rest.tipo}')"
         )
 
-    """
+    '''
     formatos dos passos de estrutura_derivacao :
         {'tipo': 'expansao', 'nao_terminal': str, 'producao': list[str]}
         {'tipo': 'match',    'terminal': str,     'token': Token}
         {'tipo': 'epsilon',  'nao_terminal': str}
-    """
+    '''
     return {
         'estrutura_derivacao': parser.estrutura_derivacao,
         'erros'    : parser.erros
