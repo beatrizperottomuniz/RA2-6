@@ -75,6 +75,7 @@ Erros léxicos e sintáticos são impressos diretamente no terminal com número 
 `stmt` = qualquer instrução completa entre parênteses <br>
 
 **Expressões com operadores relacionais**
+
 _Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado; A e B podem ser números ou `stmt`_
 | Comando | Função | Exemplo | Resultado esperado para o exemplo |
 |----------|----------|----------|----------|
@@ -86,11 +87,13 @@ _Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado; A e B podem 
 | (A B <=) | Verificar se o primeiro parâmetro é menor ou igual ao segundo | (5 (CONTADOR) <=) | Verdadeiro
 
 **Estrutura de decisão**
+
 | Comando | Função | Exemplo | Resultado esperado para o exemplo |
 |----------|----------|----------|----------|
 | (stmt stmt IF) | Realizar uma comando (stmt) caso a instrução (stmt) retorne um valor diferente de 0 | ((5 5 ==) (1 2 +) IF) | Será executada o comando (1 2 +)
 
 **Estrutura de repetição**
+
 | Comando | Função | Exemplo | Resultado esperado para o exemplo |
 |----------|----------|----------|----------|
 | (N stmt FOR) | Repete o comando (stmt) N (número inteiro positivo) vezes | (3 ((1 (CONTADOR) +) CONTADOR) FOR) | Incrementa o contador  3 vezes, com este contendo o valor 8 ao final do loop FOR
@@ -100,3 +103,4 @@ _Neste exemplo, CONTADOR é uma variável com o valor 5 armazenado; A e B podem 
 1. Os arquivos de saída em assembly, tokens e árvore sintática mostrados no repositório são correspondentes ao `teste03.txt`.<br>
 2. Foi usado `|` para divisão real e `/`pra divisão inteira, como especificado no documento da segunda fase.<br>
 3. Em caso de erro léxico, o analisador exibe um aviso mas continua a análise sintática. O assembly só é gerado se não houver nenhum erro.
+4. O terminal exibe os valores esperados de cada linha como referência para validação do assembly. Os cálculos são realizados pelo Assembly no CPulator — o Python serve apenas como simulação de verificação.
