@@ -1,0 +1,347 @@
+# Árvore sintática
+
+- `prog`
+  - `LPAREN` `[L1:1]`
+  - `KEYWORD_START` `[L1:2]`
+  - `RPAREN` `[L1:7]`
+  - `list_stmts`
+    - `LPAREN` `[L2:1]`
+    - `list_item`
+      - `rpn`
+        - `num`
+          - `NUM_FLOAT` `[L2:2]`
+        - `rpn_tail_num`
+          - `num`
+            - `NUM_FLOAT` `[L2:6]`
+          - `op_bin`
+            - `op_arit`
+              - `DIV` `[L2:10]`
+      - `RPAREN` `[L2:11]`
+      - `list_stmts`
+        - `LPAREN` `[L3:1]`
+        - `list_item`
+          - `rpn`
+            - `num`
+              - `NUM_FLOAT` `[L3:2]`
+            - `rpn_tail_num`
+              - `num`
+                - `NUM_INT` `[L3:6]`
+              - `op_bin`
+                - `op_arit`
+                  - `POW` `[L3:8]`
+          - `RPAREN` `[L3:9]`
+          - `list_stmts`
+            - `LPAREN` `[L4:1]`
+            - `list_item`
+              - `rpn`
+                - `stmt`
+                  - `LPAREN` `[L4:2]`
+                  - `rpn`
+                    - `num`
+                      - `NUM_FLOAT` `[L4:3]`
+                    - `rpn_tail_num`
+                      - `num`
+                        - `NUM_FLOAT` `[L4:7]`
+                      - `op_bin`
+                        - `op_arit`
+                          - `MULT` `[L4:11]`
+                  - `RPAREN` `[L4:12]`
+                - `rpn_tail_stmt`
+                  - `stmt`
+                    - `LPAREN` `[L4:14]`
+                    - `rpn`
+                      - `num`
+                        - `NUM_FLOAT` `[L4:15]`
+                      - `rpn_tail_num`
+                        - `num`
+                          - `NUM_FLOAT` `[L4:19]`
+                        - `op_bin`
+                          - `op_arit`
+                            - `PLUS` `[L4:23]`
+                    - `RPAREN` `[L4:24]`
+                  - `op_stmt_stmt`
+                    - `op_arit`
+                      - `PLUS` `[L4:26]`
+              - `RPAREN` `[L4:27]`
+              - `list_stmts`
+                - `LPAREN` `[L5:1]`
+                - `list_item`
+                  - `rpn`
+                    - `stmt`
+                      - `LPAREN` `[L5:2]`
+                      - `rpn`
+                        - `num`
+                          - `NUM_FLOAT` `[L5:3]`
+                        - `rpn_tail_num`
+                          - `num`
+                            - `NUM_FLOAT` `[L5:7]`
+                          - `op_bin`
+                            - `op_arit`
+                              - `DIV` `[L5:11]`
+                      - `RPAREN` `[L5:12]`
+                    - `rpn_tail_stmt`
+                      - `stmt`
+                        - `LPAREN` `[L5:14]`
+                        - `rpn`
+                          - `num`
+                            - `NUM_INT` `[L5:15]`
+                          - `rpn_tail_num`
+                            - `num`
+                              - `NUM_FLOAT` `[L5:17]`
+                            - `op_bin`
+                              - `op_arit`
+                                - `MULT` `[L5:21]`
+                        - `RPAREN` `[L5:22]`
+                      - `op_stmt_stmt`
+                        - `op_arit`
+                          - `MULT` `[L5:24]`
+                  - `RPAREN` `[L5:25]`
+                  - `list_stmts`
+                    - `LPAREN` `[L6:1]`
+                    - `list_item`
+                      - `rpn`
+                        - `stmt`
+                          - `LPAREN` `[L6:2]`
+                          - `rpn`
+                            - `num`
+                              - `NUM_FLOAT` `[L6:3]`
+                            - `rpn_tail_num`
+                              - `num`
+                                - `NUM_FLOAT` `[L6:8]`
+                              - `op_bin`
+                                - `op_arit`
+                                  - `MOD` `[L6:12]`
+                          - `RPAREN` `[L6:13]`
+                        - `rpn_tail_stmt`
+                          - `stmt`
+                            - `LPAREN` `[L6:15]`
+                            - `rpn`
+                              - `num`
+                                - `NUM_FLOAT` `[L6:16]`
+                              - `rpn_tail_num`
+                                - `num`
+                                  - `NUM_FLOAT` `[L6:20]`
+                                - `op_bin`
+                                  - `op_arit`
+                                    - `PLUS` `[L6:24]`
+                            - `RPAREN` `[L6:25]`
+                          - `op_stmt_stmt`
+                            - `op_arit`
+                              - `MULT` `[L6:27]`
+                      - `RPAREN` `[L6:28]`
+                      - `list_stmts`
+                        - `LPAREN` `[L7:1]`
+                        - `list_item`
+                          - `rpn`
+                            - `stmt`
+                              - `LPAREN` `[L7:2]`
+                              - `rpn`
+                                - `num`
+                                  - `NUM_INT` `[L7:3]`
+                                - `rpn_tail_num`
+                                  - `num`
+                                    - `NUM_INT` `[L7:5]`
+                                  - `op_bin`
+                                    - `op_rel`
+                                      - `EQ` `[L7:8]`
+                              - `RPAREN` `[L7:10]`
+                            - `rpn_tail_stmt`
+                              - `stmt`
+                                - `LPAREN` `[L7:12]`
+                                - `rpn`
+                                  - `num`
+                                    - `NUM_INT` `[L7:13]`
+                                  - `rpn_tail_num`
+                                    - `num`
+                                      - `NUM_INT` `[L7:16]`
+                                    - `op_bin`
+                                      - `op_arit`
+                                        - `MINUS` `[L7:18]`
+                                - `RPAREN` `[L7:19]`
+                              - `op_stmt_stmt`
+                                - `KEYWORD_IF` `[L7:21]`
+                          - `RPAREN` `[L7:23]`
+                          - `list_stmts`
+                            - `LPAREN` `[L8:1]`
+                            - `list_item`
+                              - `rpn`
+                                - `num`
+                                  - `NUM_INT` `[L8:2]`
+                                - `rpn_tail_num`
+                                  - `stmt`
+                                    - `LPAREN` `[L8:4]`
+                                    - `rpn`
+                                      - `num`
+                                        - `NUM_INT` `[L8:5]`
+                                      - `rpn_tail_num`
+                                        - `KEYWORD_RES` `[L8:7]`
+                                    - `RPAREN` `[L8:10]`
+                                  - `op_stmt_num`
+                                    - `KEYWORD_FOR` `[L8:12]`
+                              - `RPAREN` `[L8:15]`
+                              - `list_stmts`
+                                - `LPAREN` `[L9:1]`
+                                - `list_item`
+                                  - `rpn`
+                                    - `stmt`
+                                      - `LPAREN` `[L9:2]`
+                                      - `rpn`
+                                        - `num`
+                                          - `NUM_INT` `[L9:3]`
+                                        - `rpn_tail_num`
+                                          - `KEYWORD_RES` `[L9:5]`
+                                      - `RPAREN` `[L9:8]`
+                                    - `rpn_tail_stmt`
+                                      - `stmt`
+                                        - `LPAREN` `[L9:10]`
+                                        - `rpn`
+                                          - `num`
+                                            - `NUM_INT` `[L9:11]`
+                                          - `rpn_tail_num`
+                                            - `KEYWORD_RES` `[L9:13]`
+                                        - `RPAREN` `[L9:16]`
+                                      - `op_stmt_stmt`
+                                        - `op_arit`
+                                          - `PLUS` `[L9:18]`
+                                  - `RPAREN` `[L9:19]`
+                                  - `list_stmts`
+                                    - `LPAREN` `[L10:1]`
+                                    - `list_item`
+                                      - `rpn`
+                                        - `stmt`
+                                          - `LPAREN` `[L10:2]`
+                                          - `rpn`
+                                            - `num`
+                                              - `NUM_INT` `[L10:3]`
+                                            - `rpn_tail_num`
+                                              - `KEYWORD_RES` `[L10:5]`
+                                          - `RPAREN` `[L10:8]`
+                                        - `rpn_tail_stmt`
+                                          - `num`
+                                            - `NUM_INT` `[L10:10]`
+                                          - `op_bin`
+                                            - `op_arit`
+                                              - `DIV` `[L10:12]`
+                                      - `RPAREN` `[L10:13]`
+                                      - `list_stmts`
+                                        - `LPAREN` `[L11:1]`
+                                        - `list_item`
+                                          - `rpn`
+                                            - `num`
+                                              - `NUM_FLOAT` `[L11:2]`
+                                            - `rpn_tail_num`
+                                              - `ID` `[L11:8]`
+                                          - `RPAREN` `[L11:9]`
+                                          - `list_stmts`
+                                            - `LPAREN` `[L12:1]`
+                                            - `list_item`
+                                              - `rpn`
+                                                - `stmt`
+                                                  - `LPAREN` `[L12:2]`
+                                                  - `rpn`
+                                                    - `ID` `[L12:3]`
+                                                  - `RPAREN` `[L12:4]`
+                                                - `rpn_tail_stmt`
+                                                  - `num`
+                                                    - `NUM_INT` `[L12:6]`
+                                                  - `op_bin`
+                                                    - `op_arit`
+                                                      - `DIV` `[L12:9]`
+                                              - `RPAREN` `[L12:10]`
+                                              - `list_stmts`
+                                                - `LPAREN` `[L13:1]`
+                                                - `list_item`
+                                                  - `rpn`
+                                                    - `stmt`
+                                                      - `LPAREN` `[L13:2]`
+                                                      - `rpn`
+                                                        - `ID` `[L13:3]`
+                                                      - `RPAREN` `[L13:4]`
+                                                    - `rpn_tail_stmt`
+                                                      - `stmt`
+                                                        - `LPAREN` `[L13:6]`
+                                                        - `rpn`
+                                                          - `num`
+                                                            - `NUM_INT` `[L13:7]`
+                                                          - `rpn_tail_num`
+                                                            - `KEYWORD_RES` `[L13:9]`
+                                                        - `RPAREN` `[L13:12]`
+                                                      - `op_stmt_stmt`
+                                                        - `op_arit`
+                                                          - `PLUS` `[L13:14]`
+                                                  - `RPAREN` `[L13:15]`
+                                                  - `list_stmts`
+                                                    - `LPAREN` `[L14:1]`
+                                                    - `list_item`
+                                                      - `rpn`
+                                                        - `stmt`
+                                                          - `LPAREN` `[L14:2]`
+                                                          - `rpn`
+                                                            - `num`
+                                                              - `NUM_FLOAT` `[L14:3]`
+                                                            - `rpn_tail_num`
+                                                              - `stmt`
+                                                                - `LPAREN` `[L14:7]`
+                                                                - `rpn`
+                                                                  - `num`
+                                                                    - `NUM_FLOAT` `[L14:8]`
+                                                                  - `rpn_tail_num`
+                                                                    - `num`
+                                                                      - `NUM_INT` `[L14:12]`
+                                                                    - `op_bin`
+                                                                      - `op_arit`
+                                                                        - `PLUS` `[L14:14]`
+                                                                - `RPAREN` `[L14:15]`
+                                                              - `op_stmt_num`
+                                                                - `op_arit`
+                                                                  - `MULT` `[L14:17]`
+                                                          - `RPAREN` `[L14:18]`
+                                                        - `rpn_tail_stmt`
+                                                          - `stmt`
+                                                            - `LPAREN` `[L14:20]`
+                                                            - `rpn`
+                                                              - `num`
+                                                                - `NUM_FLOAT` `[L14:21]`
+                                                              - `rpn_tail_num`
+                                                                - `num`
+                                                                  - `NUM_FLOAT` `[L14:25]`
+                                                                - `op_bin`
+                                                                  - `op_arit`
+                                                                    - `DIV` `[L14:29]`
+                                                            - `RPAREN` `[L14:30]`
+                                                          - `op_stmt_stmt`
+                                                            - `op_arit`
+                                                              - `MINUS` `[L14:32]`
+                                                      - `RPAREN` `[L14:33]`
+                                                      - `list_stmts`
+                                                        - `LPAREN` `[L15:1]`
+                                                        - `list_item`
+                                                          - `rpn`
+                                                            - `stmt`
+                                                              - `LPAREN` `[L15:2]`
+                                                              - `rpn`
+                                                                - `ID` `[L15:3]`
+                                                              - `RPAREN` `[L15:4]`
+                                                            - `rpn_tail_stmt`
+                                                              - `stmt`
+                                                                - `LPAREN` `[L15:6]`
+                                                                - `rpn`
+                                                                  - `num`
+                                                                    - `NUM_FLOAT` `[L15:7]`
+                                                                  - `rpn_tail_num`
+                                                                    - `num`
+                                                                      - `NUM_FLOAT` `[L15:11]`
+                                                                    - `op_bin`
+                                                                      - `op_arit`
+                                                                        - `INT_DIV` `[L15:15]`
+                                                                - `RPAREN` `[L15:16]`
+                                                              - `op_stmt_stmt`
+                                                                - `op_arit`
+                                                                  - `MULT` `[L15:18]`
+                                                          - `RPAREN` `[L15:19]`
+                                                          - `list_stmts`
+                                                            - `LPAREN` `[L16:1]`
+                                                            - `list_item`
+                                                              - `KEYWORD_END` `[L16:2]`
+                                                              - `RPAREN` `[L16:5]`
+  - `EOF` `[L16:6]`

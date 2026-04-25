@@ -21,13 +21,13 @@ from gerarAssembly import gerarAssembly
 from executaExpressao import executarExpressao
 from exibeResultados import exibirResultados
 
-ARQUIVO_TOKENS = "saida_tokens_2.txt"
+arquivo_tokens = "saida_tokens_2.txt"
 
 
 # funcs lexico
 
 
-def _exportar_tokens(lista_tokens, caminho=ARQUIVO_TOKENS):
+def _exportar_tokens(lista_tokens, caminho=arquivo_tokens):
     tokens_serializados = []
     for token in lista_tokens:
         tokens_serializados.append({
@@ -124,7 +124,7 @@ if __name__ == "__main__":
         print("\nAVISO: erros léxicos encontrados — continuando análise sintática.")
 
     # 2. ler tokens
-    tokens = lerTokens(ARQUIVO_TOKENS)
+    tokens = lerTokens(arquivo_tokens)
 
     # 3. gramática e tabela LL(1)
     resultado_gramatica = construirGramatica()
@@ -146,7 +146,7 @@ if __name__ == "__main__":
 
     # 5. árvore sintática
     arvore = gerarArvore(resultado_parser['estrutura_derivacao'])
-    print("Árvore gerada: saida_arvore.json / saida_arvore.txt / saida_arvore.png")
+    print("Árvore gerada: saida_arvore_json.txt / saida_arvore.txt / saida_arvore.png / saida_arvore.md")
 
     # 6. geração de assembly
     gerarAssembly(arvore)
