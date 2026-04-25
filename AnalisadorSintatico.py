@@ -68,8 +68,7 @@ def _rodar_lexico(caminho_fonte):
 
         globalVars.contador_linha_global += 1
 
-    if not erro:
-        _exportar_tokens(tokens_lista)
+    _exportar_tokens(tokens_lista)
 
     return not erro
 
@@ -120,9 +119,9 @@ if __name__ == "__main__":
 
     caminho = sys.argv[1]
 
-    if not _rodar_lexico(caminho):
-        print("\nERRO léxico — execução interrompida.")
-        sys.exit(1)
+    erro_lexico = not _rodar_lexico(caminho)
+    if erro_lexico:
+        print("\nAVISO: erros léxicos encontrados — continuando análise sintática.")
 
     # 2. ler tokens
     tokens = lerTokens(ARQUIVO_TOKENS)
@@ -134,12 +133,13 @@ if __name__ == "__main__":
     # 4. parsing
     resultado_parser = parsear(tokens, tabela)
 
-    if resultado_parser['erros']:
-        print("\n------ Erros sintáticos ------")
-        for erro in resultado_parser['erros']:
-            print(f"  {erro}")
-        print("------------------------------")
-        print("\nERRO sintático — execução interrompida.")
+    if erro_lexico or resultado_parser['erros']:
+        if resultado_parser['erros']:
+            print("\n------ Erros sintáticos ------")
+            for erro in resultado_parser['erros']:
+                print(f"  {erro}")
+            print("------------------------------")
+        print("\nERROS encontrados — assembly não gerado.")
         sys.exit(1)
 
     print("Análise sintática: OK")

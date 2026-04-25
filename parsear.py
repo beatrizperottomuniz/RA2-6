@@ -77,7 +77,8 @@ class Parser:
 
         self.erro(
             f"Erro sintático (linha {linha}, col {coluna}): "
-            f"esperado '{tipo_esperado}', encontrado '{tipo}' {lexema}"
+            f"esperado '{tipo_esperado}', encontrado '{tipo}'"
+            + (f' ("{lexema}")' if lexema else "")
         )
         self.sincronizar()
         return None
@@ -102,11 +103,18 @@ class Parser:
             lexema = ""
             if token and token.tipo in ('NUM_INT', 'NUM_FLOAT', 'ID'): 
                 lexema = string_pool_global.obterString(token.simbolo_id)
-            self.erro(
-                f"Erro sintático (linha {linha}, col {coluna}): "
-                f"em '{nao_terminal}', token '{tipo}' inesperado {lexema}. "
-                f"Esperados: {esperados}"
-            )
+            if tipo == 'UNKNOWN':
+                self.erro(
+                    f"Erro léxico (linha {linha}, col {coluna}): "
+                    f"token inválido encontrado durante análise sintática"
+                )
+            else:
+                self.erro(
+                    f"Erro sintático (linha {linha}, col {coluna}): "
+                    f"em '{nao_terminal}', token '{tipo}' inesperado"
+                    + (f' ("{lexema}")' if lexema else "")
+                    + f". Esperados: {', '.join(esperados)}"
+                )
             self.sincronizar()
             return None
 
